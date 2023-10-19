@@ -6,6 +6,7 @@ import useScript from "@helper/useScript";
 const HeaderContainer = () => {
     useScript("/assets/js/theme.bundle.min.js");
     const {pathname} = useLocation();
+
     return (
         <header className="z-fixed header-absolute-top header-transparent sticky-reverse">
             <nav className="navbar navbar-expand-lg navbar-light">

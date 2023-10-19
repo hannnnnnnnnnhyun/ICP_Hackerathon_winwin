@@ -22,3 +22,9 @@ install-frontend:
 .SILENT: update
 update: 
 	./scripts/update.sh
+
+
+.PHONY: identify
+.SILENT: identify
+identify: 
+	./scripts/install_identity.sh

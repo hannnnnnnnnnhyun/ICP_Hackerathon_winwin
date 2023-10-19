@@ -1,7 +1,9 @@
+import React from "react";
+
 const HomeJumbotronComponent = () => {
     return (
         <section className="position-relative overflow-hidden bg-shade-primary jarallax" data-speed=".2">
-            <img src="/assets/img/backgrounds/bg8.jpeg" alt="" className="jarallax-img"/>
+            <img src="/assets/img/background/bg8.jpeg" alt="" className="jarallax-img"/>
             <div className="bg-dark opacity-50 position-absolute start-0 top-0 w-100 h-100"></div>
             <svg className="position-absolute start-0 bottom-0" style={{color: 'var(--bs-body-bg)'}}
                  preserveAspectRatio="none" width={"100%"}

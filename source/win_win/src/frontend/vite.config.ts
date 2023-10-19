@@ -65,6 +65,7 @@ const DFX_PORT = dfxJson.networks.local.bind.split(":")[1]
 // See guide on how to configure Vite at:
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "./",
   plugins: [reactRefresh()],
   resolve: {
     alias: [
@@ -73,6 +74,9 @@ export default defineConfig({
       { find: "@reducer", replacement: path.resolve(__dirname, "src/reducers") },
       { find: "@helper", replacement: path.resolve(__dirname, "src/helpers") },
       { find: "@container", replacement: path.resolve(__dirname, "src/containers") },
+      { find: "@actor", replacement: path.resolve(__dirname, "src/actors") },
+      { find: "@declaration", replacement: path.resolve(__dirname, "declarations") },
+      // { find: "/assets", replacement: path.resolve(__dirname, "public/assets") },
       // Here we tell Vite the "fake" modules that we want to define
     ],
   },
@@ -101,11 +105,17 @@ export default defineConfig({
       },
       treeshake: false,
       input: {
-        
         main: path.resolve(__dirname, "index.html"),
       },
       
     }
+  },
+  publicDir: 'public',
+  optimizeDeps: {
+    include: [
+      "*.woff",
+      "*.woff2"
+    ],
   },
   define: {
     // Here we can define global constants

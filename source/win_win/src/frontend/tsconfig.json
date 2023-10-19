@@ -28,13 +28,16 @@
       "@helper/*": ["src/helpers/*"],
       "@container/*": ["src/containers/*"],
       "@type/*": ["src/types/*"],
-      "@action/*": ["src/actions/*"]
+      "@action/*": ["src/actions/*"],
+      "@actor/*": ["src/actors/*"],
+      "@declaration/*": ["/declarations/*"],
+      // "/assets/*": ["public/assets/*"],
     }
   },
   "include": [
     "./*", 
     "src/helper/*",
     "src/containers/*" ,
-    "src/types/*"
+    "src/types/*",
   ],
 }

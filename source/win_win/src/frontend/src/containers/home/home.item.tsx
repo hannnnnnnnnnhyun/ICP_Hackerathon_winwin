@@ -1,7 +1,7 @@
 import React from "react";
 import {Event} from "@type/data/event.type";
 import {Link} from "react-router-dom";
-
+import {FmdGoodOutlined, CheckCircleOutline, AttachMoneyOutlined} from '@mui/icons-material';
 const HomeItemComponent = (props: { event: Event }) => {
     const event = props.event;
     return (
@@ -29,12 +29,12 @@ const HomeItemComponent = (props: { event: Event }) => {
                                             <i className="bx bx-chevron-down-circle me-1"></i>{event.category}
                                         </li>
                                         <li className="me-3 mb-2 d-flex align-items-center">
-                                            <i className="bx bx-map me-1"></i>{event.location}
+                                            <FmdGoodOutlined className={"bx me-1"}/>{event.location}
                                         </li>
                                     </ul>
                                     <div className="d-flex align-items-center">
                                         <span className="badge bg-body-secondary text-body py-1 lh-base position-relative z-2">
-                                            <i className="bx bx-dollar me-1"></i> {event.price.toLocaleString('ko-KR')} MART
+                                            <AttachMoneyOutlined className={"bx me-1"}/>{event.price.toLocaleString('ko-KR')} MART
                                         </span>
                                     </div>
                                 </div>

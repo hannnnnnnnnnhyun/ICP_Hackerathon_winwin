@@ -5,7 +5,10 @@
             "main": "src/backend/index.ts",
             "candid": "src/backend/index.did",
             "wasm": ".azle/backend/backend.wasm",
-            "gzip": true
+            "gzip": true,
+            "declarations": {
+              "output": "src/frontend/declarations/backend"
+            }
         },
         "frontend": {
           "dependencies": [
@@ -18,6 +21,20 @@
             "src/frontend/dist"
           ],
           "type": "assets"
+      },
+      "internet_identity": {
+        "type": "custom",
+        "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+        "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz",
+        "remote": {
+          "candid": "internet_identity.did",
+          "id": {
+            "ic": "bnz7o-iuaaa-aaaaa-qaaaa-cai"
+          }
+        },
+        "declarations": {
+          "output": "src/frontend/declarations/internet_identity"
+        }
       }
     },
     "defaults": {
