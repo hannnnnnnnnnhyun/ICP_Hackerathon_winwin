@@ -10,7 +10,7 @@ node_modules:
 
 .PHONY: install
 .SILENT: install
-install: clean
+install: 
 	./scripts/install.sh
 
 .PHONY: install-frontend
