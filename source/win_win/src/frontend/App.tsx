@@ -6,11 +6,10 @@ import Header from "@container/header/header";
 import Home from "@container/home/home";
 import FooterContainer from "@container/footer/footer";
 import Create from "@container/create/create";
-import DetailContainer from "@container/detail/deatil";
-import ModalChallenge from "@container/modal/modal.challenge.tsx";
-import ModalFinish from "@container/modal/modal.finish.tsx";
-
-import background from "@assets/img/backgrounds/background.png";
+import Detail from "@container/detail/deatil";
+import ModalChallenge from "@container/modal/modal.challenge";
+import ModalFinish from "@container/modal/modal.finish";
+import LoadingModal from "@container/modal/modal.loading";
 declare global {
   interface Window {
     ic: any;
@@ -25,11 +24,12 @@ function App() {
         <Routes>
           <Route path={"*"} element={<Home/>}/>
           <Route path={"/create"} element={<Create/>}/>
-          <Route path={"/detail"} element={<DetailContainer/>}/>
+          <Route path={"/detail/:id"} element={<Detail/>}/>
         </Routes>
         <FooterContainer />
         <ModalChallenge />
         <ModalFinish />
+        <LoadingModal />
       </BrowserRouter>
     </div>
   )

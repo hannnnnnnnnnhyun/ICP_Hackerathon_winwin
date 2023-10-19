@@ -5,14 +5,14 @@ export const idlFactory = ({ IDL }) => {
           IDL.Record({
             'id' : IDL.Principal,
             'creator' : IDL.Principal,
-            'logo' : IDL.Text,
+            'logo' : IDL.Vec(IDL.Nat8),
             'name' : IDL.Text,
             'finish' : IDL.Bool,
             'category' : IDL.Text,
             'transactions' : IDL.Vec(
               IDL.Record({
                 'id' : IDL.Principal,
-                'pic' : IDL.Text,
+                'pic' : IDL.Vec(IDL.Nat8),
                 'challenger' : IDL.Principal,
               })
             ),
@@ -28,7 +28,7 @@ export const idlFactory = ({ IDL }) => {
           IDL.Principal,
           IDL.Record({
             'id' : IDL.Principal,
-            'pic' : IDL.Text,
+            'pic' : IDL.Vec(IDL.Nat8),
             'challenger' : IDL.Principal,
           }),
         ],
@@ -41,7 +41,7 @@ export const idlFactory = ({ IDL }) => {
           IDL.Opt(
             IDL.Record({
               'id' : IDL.Principal,
-              'pic' : IDL.Text,
+              'pic' : IDL.Vec(IDL.Nat8),
               'challenger' : IDL.Principal,
             })
           ),
@@ -56,14 +56,14 @@ export const idlFactory = ({ IDL }) => {
             IDL.Record({
               'id' : IDL.Principal,
               'creator' : IDL.Principal,
-              'logo' : IDL.Text,
+              'logo' : IDL.Vec(IDL.Nat8),
               'name' : IDL.Text,
               'finish' : IDL.Bool,
               'category' : IDL.Text,
               'transactions' : IDL.Vec(
                 IDL.Record({
                   'id' : IDL.Principal,
-                  'pic' : IDL.Text,
+                  'pic' : IDL.Vec(IDL.Nat8),
                   'challenger' : IDL.Principal,
                 })
               ),
@@ -80,8 +80,33 @@ export const idlFactory = ({ IDL }) => {
           IDL.Vec(
             IDL.Record({
               'id' : IDL.Principal,
-              'pic' : IDL.Text,
+              'pic' : IDL.Vec(IDL.Nat8),
               'challenger' : IDL.Principal,
+            })
+          ),
+        ],
+        ['query'],
+      ),
+    'getEvent' : IDL.Func(
+        [IDL.Principal],
+        [
+          IDL.Opt(
+            IDL.Record({
+              'id' : IDL.Principal,
+              'creator' : IDL.Principal,
+              'logo' : IDL.Vec(IDL.Nat8),
+              'name' : IDL.Text,
+              'finish' : IDL.Bool,
+              'category' : IDL.Text,
+              'transactions' : IDL.Vec(
+                IDL.Record({
+                  'id' : IDL.Principal,
+                  'pic' : IDL.Vec(IDL.Nat8),
+                  'challenger' : IDL.Principal,
+                })
+              ),
+              'price' : IDL.Nat,
+              'location' : IDL.Text,
             })
           ),
         ],
@@ -94,14 +119,14 @@ export const idlFactory = ({ IDL }) => {
             IDL.Record({
               'id' : IDL.Principal,
               'creator' : IDL.Principal,
-              'logo' : IDL.Text,
+              'logo' : IDL.Vec(IDL.Nat8),
               'name' : IDL.Text,
               'finish' : IDL.Bool,
               'category' : IDL.Text,
               'transactions' : IDL.Vec(
                 IDL.Record({
                   'id' : IDL.Principal,
-                  'pic' : IDL.Text,
+                  'pic' : IDL.Vec(IDL.Nat8),
                   'challenger' : IDL.Principal,
                 })
               ),
@@ -119,14 +144,14 @@ export const idlFactory = ({ IDL }) => {
             IDL.Record({
               'id' : IDL.Principal,
               'creator' : IDL.Principal,
-              'logo' : IDL.Text,
+              'logo' : IDL.Vec(IDL.Nat8),
               'name' : IDL.Text,
               'finish' : IDL.Bool,
               'category' : IDL.Text,
               'transactions' : IDL.Vec(
                 IDL.Record({
                   'id' : IDL.Principal,
-                  'pic' : IDL.Text,
+                  'pic' : IDL.Vec(IDL.Nat8),
                   'challenger' : IDL.Principal,
                 })
               ),
@@ -143,7 +168,7 @@ export const idlFactory = ({ IDL }) => {
           IDL.Vec(
             IDL.Record({
               'id' : IDL.Principal,
-              'pic' : IDL.Text,
+              'pic' : IDL.Vec(IDL.Nat8),
               'challenger' : IDL.Principal,
             })
           ),

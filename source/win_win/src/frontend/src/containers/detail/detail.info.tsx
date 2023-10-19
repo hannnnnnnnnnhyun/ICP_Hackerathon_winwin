@@ -17,7 +17,7 @@ const DetailInfoComponent = (props: { event: Event }) => {
             <p className="mb-0">{event!.price.toLocaleString('ko-KR')} MART</p>
             <hr className="my-3"/>
             <small className="text-body-secondary mb-2 d-block">생성자</small>
-            <p className="mb-0">{event!.creator}</p>
+            <p className="mb-0">{event!.creator.toString()}</p>
             <hr className="my-3"/>
             <small className="text-body-secondary mb-2 d-block">Categories</small>
             <p className="mb-0 d-flex flex-wrap mb-n2 position-relative">

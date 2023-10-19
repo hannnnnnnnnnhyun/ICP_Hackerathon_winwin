@@ -1,5 +1,5 @@
 set -e
-dfx stop && dfx start --background --clean --host 127.0.0.1:8322
+# dfx stop && dfx start --background --clean --host 127.0.0.1:8322
 
 dfx identity use minter
 export MINTER=$(dfx identity get-principal)

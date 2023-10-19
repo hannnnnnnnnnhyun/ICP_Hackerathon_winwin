@@ -1,4 +1,4 @@
-import { Principal, Record, Vec, nat, text, bool } from "azle";
+import { Principal, Record, Vec, nat, text, bool, blob } from "azle";
 
 export const User = Record({
     eventIds: Vec(Principal)
@@ -6,7 +6,7 @@ export const User = Record({
 
 export const Challenge = Record({
     id: Principal,
-    pic: text,
+    pic: blob,
     challenger: Principal,
 });
 
@@ -14,7 +14,7 @@ export const Event = Record({
     id: Principal,
     name: text,
     location: text,
-    logo: text,
+    logo: blob,
     category: text,
     price: nat,
     creator: Principal,

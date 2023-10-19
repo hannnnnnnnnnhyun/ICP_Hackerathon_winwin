@@ -1,6 +1,6 @@
 import {DetailActions, DetailState} from "@type/detail.type";
 import {createReducer} from "typesafe-actions";
-import {ON_GET_EVENT_SUCCESS, ON_GET_TRANSACTION_SUCCESS} from "@action/detail.action";
+import {ON_GET_EVENT, ON_GET_TRANSACTION} from "@action/detail.action";
 
 const initialState: DetailState = {
     event: undefined,
@@ -8,13 +8,13 @@ const initialState: DetailState = {
 }
 
 const DetailReducer = createReducer<DetailState, DetailActions>(initialState, {
-    [ON_GET_EVENT_SUCCESS]: (state, action) => ({
+    [ON_GET_EVENT]: (state, action) => ({
         ...state,
         event: action.payload
     }),
-    [ON_GET_TRANSACTION_SUCCESS]: (state, action) => ({
+    [ON_GET_TRANSACTION]: (state, action) => ({
         ...state,
-        transactions: action.payload
+        transactions: [...state.transactions, ...action.payload]
     })
 })
 

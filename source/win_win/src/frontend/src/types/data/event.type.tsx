@@ -1,13 +1,14 @@
 import {Transaction} from "@type/data/transaction.type";
+import { Principal } from '@dfinity/principal';
 
 export type Event = {
-    id: string;
+    id: Principal;
     name: string;
     location: string;
-    logo: string;
+    logo: Uint8Array | number[];
     category: string;
-    price: number;
-    creator: string;
+    price: bigint;
+    creator: Principal;
     finish: boolean;
     transactions: Array<Transaction>
 }

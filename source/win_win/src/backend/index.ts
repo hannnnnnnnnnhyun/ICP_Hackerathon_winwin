@@ -1,8 +1,6 @@
-import { Canister, query, StableBTreeMap, text, update, Record, Vec, bool, Principal, Opt, nat, nat8, nat64, ic, Variant, int32, None, Null } from 'azle';
+import { Canister, query, StableBTreeMap, text, update, Record, Vec, bool, Principal, Opt, nat, nat8, nat64, ic, Variant, int32, None, Null, blob } from 'azle';
 import { Challenge, Event, User } from "./types";
 // This is a global variable that is stored on the heap
-let message = '';
-
 let users = StableBTreeMap(Principal, User, 0);
 let events = StableBTreeMap(Principal, Event, 1);
 
@@ -68,7 +66,6 @@ const tokenCanister = token(
 );
 
 export default Canister({
-
     createEvent: update([Event], bool, async (event) => {
         const caller = ic.caller();
         const userOpt = users.get(caller);
@@ -89,13 +86,11 @@ export default Canister({
         };
         events.insert(id, new_event);
         if ('None' in userOpt) {
-            console.log("USER DOES NOT EXIST");
             const new_user: typeof User = {
                 eventIds: [id]
             };
             users.insert(caller, new_user);
         } else {
-            console.log("USER EXISTS");
             const events = userOpt.Some;
             const new_user: typeof User = {
                 eventIds: [...events.eventIds, id]
@@ -112,13 +107,10 @@ export default Canister({
     getEvents: query([int32, int32], Vec(Event), (page, limit) => {
         const start = (page - 1) * limit;
         const end = page * limit;
-        console.log("[0]: " + events.values()[0]);
-        console.log("Page: " + page);
-        console.log("Limit: " + limit);
-        console.log("START: " + start);
-        console.log("END: " + end);
-        // console.log("length: " + events.values().slice(start, end).length);
-        return events.values().slice(start, end);
+        const keys = events.keys();
+        const items = keys.slice(start, end).map((key) => events.get(key).Some!);
+        return items;
+        // return events.values().slice(start, end);
     }),
 
     getEventByUser: query([Principal], Vec(Event), (principal) => {
@@ -131,6 +123,10 @@ export default Canister({
             return [];
         }
         return eventIds.map((id) => events.get(id).Some!);
+    }), 
+
+    getEvent: query([Principal], Opt(Event), (id) => {
+        return events.get(id);
     }),
 
     getTransactions: query([Principal, int32, int32], Vec(Challenge), (principal, page, limit) => {
@@ -139,8 +135,8 @@ export default Canister({
             return [];
         } else {
             const transactions = eventOpt.Some.transactions;
-            const start: int32 = page * limit - 1;
-            const end: int32 = page * (limit - 1);
+            const start = (page - 1) * limit;
+            const end = page * limit;
             return transactions.slice(start, end);
         }
     }),

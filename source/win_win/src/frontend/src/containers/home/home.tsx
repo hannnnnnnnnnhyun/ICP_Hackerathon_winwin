@@ -6,19 +6,26 @@ import HomeItem from "@container/home/home.item";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@reducer/root.reducer";
 import {useEffect} from "react";
-import {onGetEventAction} from "@action/home.action";
-import {testData} from "@container/home/home.test";
+import {onEventClearAction, onGetEventAction} from "@action/home.action";
 import ShapeComponent from "@container/common/shape";
-
+import { BackendActor } from "@actor/backend.actor";
 
 const HomeContainer = () => {
     useScript("/assets/js/theme.bundle.min.js");
     const dispatch = useDispatch();
     const { events } = useSelector((root: RootState) => root.HomeReducer);
+    const [page, setPage] = React.useState(1);
+
+    const getEvents = async () => {
+        const actor = await BackendActor.getBackendActor();
+        const result = await actor.getEvents(page, 5);
+        console.log('result: ', result);
+        dispatch(onGetEventAction(result));
+    }
 
     useEffect(() => {
-        dispatch(onGetEventAction.success(testData))
-    }, []);
+        getEvents();
+    }, [page]);
 
     return (
         <main>
@@ -29,10 +36,10 @@ const HomeContainer = () => {
                         <div className="col-lg-12 mb-5 mb-lg-0 mx-auto">
                             <HomeSelect/>
                             <div className="row">
-                                {events.map((item) => <HomeItem event={item} key={item.id} />)}
+                                {events.map((item) => <HomeItem event={item} key={item.id.toText()} />)}
                             </div>
-                            <div className="pt-2 text-center" data-aos="fade-up" data-aos-delay="350">
-                                <a href="#!" className="btn btn-info rounded-pill">Load More Events</a>
+                            <div className="pt-2 text-center" data-aos="fade-up" data-aos-delay="350" onClick={() => setPage(page + 1)}>
+                                <span className="btn btn-info rounded-pill">Load More Events</span>
                             </div>
                         </div>
                     </div>

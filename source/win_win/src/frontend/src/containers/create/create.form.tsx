@@ -4,6 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@reducer/root.reducer";
 import { BackendActor } from "@actor/backend.actor";
+import {imageToBlob} from "@helper/converter";
 
 const CreateFormComponent = () => {
     const { authClient } = useSelector((root: RootState) => root.HeaderReducer);
@@ -12,30 +13,31 @@ const CreateFormComponent = () => {
     const imageInput = useRef<HTMLInputElement>(null);
     const logo = watch('logo');
 
-    const imageToBlob = (file: File) => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            console.log('reader.result: ', reader.result);
-            const blob = new Blob([reader.result as ArrayBuffer], { type: file.type });
-            resolve(blob);
-        }
-        reader.onerror = reject;
-        reader.readAsArrayBuffer(file);
-    })
-
     useEffect(() => {
         if (logo && logo.length > 0) {
             const file: File = logo[0];
             setImagePreview(URL.createObjectURL(file));
-            imageToBlob(file).then((blob) => {
-                console.log('blob: ', blob)
-            })
         }
     }, [logo]);
 
     const onSubmit = async (data: any)  => {
         await BackendActor.setAuthClient(authClient);
         const actor = await BackendActor.getBackendActor();
+        const file = logo[0];
+        const blobLogo: any = await imageToBlob(file);
+        const byteLogo = new Uint8Array(blobLogo);
+        const result = await actor.createEvent({
+            id: authClient.getIdentity().getPrincipal(),
+            creator: authClient.getIdentity().getPrincipal(),
+            finish: false,
+            transactions: [],
+            name: data.name,
+            location: data.location,
+            category: data.category,
+            price: BigInt(data.price),
+            logo: byteLogo,
+        });
+        console.log('result: ', result);
         // actor.createEvent(authClient.getIdentity().getPrincipal(), {data.name, data.location, data.category, data.price, data.logo[0]})
     }
 

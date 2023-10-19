@@ -6,7 +6,7 @@ pushd src/frontend
 pwd
 npm install
 echo "npm installed"
-npm run build
+npm run build || true
 echo "npm build frontend"
 dfx build frontend || true
 echo "dfx built frontend"
@@ -14,6 +14,6 @@ dfx canister install -m upgrade frontend
 echo "installed frontend"
 
 # echo "===== VISIT DEFI FRONTEND ====="
-echo "http://127.0.0.1:8321?canisterId=$(dfx canister id frontend)"
+echo "http://$(dfx canister id frontend).localhost:8321/"
 # echo "===== VISIT DEFI FRONTEND ====="
 

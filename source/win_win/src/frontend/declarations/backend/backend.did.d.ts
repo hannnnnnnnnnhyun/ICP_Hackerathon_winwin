@@ -7,12 +7,16 @@ export interface _SERVICE {
       {
         'id' : Principal,
         'creator' : Principal,
-        'logo' : string,
+        'logo' : Uint8Array | number[],
         'name' : string,
         'finish' : boolean,
         'category' : string,
         'transactions' : Array<
-          { 'id' : Principal, 'pic' : string, 'challenger' : Principal }
+          {
+            'id' : Principal,
+            'pic' : Uint8Array | number[],
+            'challenger' : Principal,
+          }
         >,
         'price' : bigint,
         'location' : string,
@@ -21,13 +25,26 @@ export interface _SERVICE {
     boolean
   >,
   'createTransaction' : ActorMethod<
-    [Principal, { 'id' : Principal, 'pic' : string, 'challenger' : Principal }],
+    [
+      Principal,
+      {
+        'id' : Principal,
+        'pic' : Uint8Array | number[],
+        'challenger' : Principal,
+      },
+    ],
     boolean
   >,
   'exitEvent' : ActorMethod<
     [
       Principal,
-      [] | [{ 'id' : Principal, 'pic' : string, 'challenger' : Principal }],
+      [] | [
+        {
+          'id' : Principal,
+          'pic' : Uint8Array | number[],
+          'challenger' : Principal,
+        }
+      ],
     ],
     boolean
   >,
@@ -37,12 +54,16 @@ export interface _SERVICE {
       {
         'id' : Principal,
         'creator' : Principal,
-        'logo' : string,
+        'logo' : Uint8Array | number[],
         'name' : string,
         'finish' : boolean,
         'category' : string,
         'transactions' : Array<
-          { 'id' : Principal, 'pic' : string, 'challenger' : Principal }
+          {
+            'id' : Principal,
+            'pic' : Uint8Array | number[],
+            'challenger' : Principal,
+          }
         >,
         'price' : bigint,
         'location' : string,
@@ -51,7 +72,35 @@ export interface _SERVICE {
   >,
   'getAllTransactions' : ActorMethod<
     [Principal],
-    Array<{ 'id' : Principal, 'pic' : string, 'challenger' : Principal }>
+    Array<
+      {
+        'id' : Principal,
+        'pic' : Uint8Array | number[],
+        'challenger' : Principal,
+      }
+    >
+  >,
+  'getEvent' : ActorMethod<
+    [Principal],
+    [] | [
+      {
+        'id' : Principal,
+        'creator' : Principal,
+        'logo' : Uint8Array | number[],
+        'name' : string,
+        'finish' : boolean,
+        'category' : string,
+        'transactions' : Array<
+          {
+            'id' : Principal,
+            'pic' : Uint8Array | number[],
+            'challenger' : Principal,
+          }
+        >,
+        'price' : bigint,
+        'location' : string,
+      }
+    ]
   >,
   'getEventByUser' : ActorMethod<
     [Principal],
@@ -59,12 +108,16 @@ export interface _SERVICE {
       {
         'id' : Principal,
         'creator' : Principal,
-        'logo' : string,
+        'logo' : Uint8Array | number[],
         'name' : string,
         'finish' : boolean,
         'category' : string,
         'transactions' : Array<
-          { 'id' : Principal, 'pic' : string, 'challenger' : Principal }
+          {
+            'id' : Principal,
+            'pic' : Uint8Array | number[],
+            'challenger' : Principal,
+          }
         >,
         'price' : bigint,
         'location' : string,
@@ -77,12 +130,16 @@ export interface _SERVICE {
       {
         'id' : Principal,
         'creator' : Principal,
-        'logo' : string,
+        'logo' : Uint8Array | number[],
         'name' : string,
         'finish' : boolean,
         'category' : string,
         'transactions' : Array<
-          { 'id' : Principal, 'pic' : string, 'challenger' : Principal }
+          {
+            'id' : Principal,
+            'pic' : Uint8Array | number[],
+            'challenger' : Principal,
+          }
         >,
         'price' : bigint,
         'location' : string,
@@ -91,6 +148,12 @@ export interface _SERVICE {
   >,
   'getTransactions' : ActorMethod<
     [Principal, number, number],
-    Array<{ 'id' : Principal, 'pic' : string, 'challenger' : Principal }>
+    Array<
+      {
+        'id' : Principal,
+        'pic' : Uint8Array | number[],
+        'challenger' : Principal,
+      }
+    >
   >,
 }
