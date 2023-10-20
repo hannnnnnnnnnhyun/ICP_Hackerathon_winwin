@@ -14,6 +14,8 @@ import { onToggleLoadingModalAction } from "@action/modal.action";
 import { Principal } from '@dfinity/principal';
 import { EventActor } from "@actor/event.actor";
 import { convertImage } from "@helper/converter";
+import ConfirmModal from "@container/modal/modal.confirm";
+import ModalFinish from "@container/modal/modal.finish";
 
 const DetailContainer = () => {
     const params = useParams();
@@ -110,6 +112,8 @@ const DetailContainer = () => {
                     </div>
                     <ShapeComponent />
                 </section>
+                <ConfirmModal />
+                <ModalFinish />
             </main>
         )
 }
