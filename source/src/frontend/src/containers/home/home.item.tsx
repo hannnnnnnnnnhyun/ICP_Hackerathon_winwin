@@ -10,6 +10,19 @@ const HomeItemComponent = (props: { event: Event }) => {
     console.log('event: ', event)
     // var blob = new Blob([uint8array]);
 
+    const getEventState = () => {
+        switch (event.state) {
+            case "open":
+                return '업로드 진행중';
+            case "betting":
+                return '배팅 진행중';
+            case "finished":
+                return '이벤트 종료';
+            default:
+                return '이벤트 진행중';
+        }
+    }
+
     return (
         <div className="col-md-6 mb-4" data-aos="fade-up">
             <div className="card hover-lift hover-shadow-xl h-100 shadow-sm">
@@ -27,7 +40,7 @@ const HomeItemComponent = (props: { event: Event }) => {
                                             <small className="flex-grow-1">{event.creator.toString()}</small>
                                         </div>
                                         <span className="badge py-1 lh-base position-relative z-2 bg-primary-subtle text-primary me-2 px-3">
-                                            {event.finish ? "종료" : "진행중"}
+                                            {getEventState()}
                                         </span>
                                     </div>
                                     <ul className="d-flex small flex-wrap list-unstyled mb-3">

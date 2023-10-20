@@ -34,7 +34,7 @@ const CreateFormComponent = () => {
         const result = await actor.createEvent({
             id: authClient.getIdentity().getPrincipal(),
             creator: authClient.getIdentity().getPrincipal(),
-            finish: false,
+            state: 'open',
             transactions: [],
             name: data.name,
             location: data.location,

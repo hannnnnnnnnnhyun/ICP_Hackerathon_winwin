@@ -9,7 +9,7 @@ export type Event = {
     category: string;
     price: bigint;
     creator: Principal;
-    finish: boolean;
+    state: string;
     transactions: Array<Transaction>
 }
 
