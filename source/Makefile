@@ -38,3 +38,8 @@ test:
 .SILENT: dev
 dev: 
 	./scripts/dev.sh
+
+.PHONY: nft
+.SILENT: nft
+nft: 
+	./scripts/nft.sh

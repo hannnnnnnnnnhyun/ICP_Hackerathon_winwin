@@ -20,6 +20,16 @@
             "output": "src/frontend/declarations/betting"
           }
       },
+      "nft": {
+        "type": "custom",
+        "main": "src/canisters/nft/index.ts",
+        "candid": "src/canisters/nft/index.did",
+        "wasm": ".azle/nft/nft.wasm",
+        "gzip": true,
+        "declarations": {
+          "output": "src/frontend/declarations/nft"
+        }
+      },
         "icrc1_ledger_canister": {
           "type": "custom",
           "candid": "https://raw.githubusercontent.com/dfinity/ic/d87954601e4b22972899e9957e800406a0a6b929/rs/rosetta-api/icrc1/ledger/ledger.did",

@@ -22,10 +22,16 @@ export const Event = Record({
     transactions: Vec(Challenge),
 });
 
+export const Attributes = Record({
+    key: text,
+    value: text,
+})
+
 export const Metadata = Record({
     name: text,
     description: text,
     image: blob,
+    attributes: Vec(Attributes),
 });
 
 export const NFT = Record({
