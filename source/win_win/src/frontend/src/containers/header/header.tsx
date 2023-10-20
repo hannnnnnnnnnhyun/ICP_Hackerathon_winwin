@@ -1,11 +1,42 @@
 import * as React from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import HeaderConnect from "./header.connnect";
 import useScript from "@helper/useScript";
+import {useSelector} from "react-redux";
+import {RootState} from "@reducer/root.reducer";
+import { useDispatch } from "react-redux";
+import { onChangeNoticeMessageAction, onToggleNoticeModalAction } from "@action/modal.action";
+import { AuthClient } from "@dfinity/auth-client";
+import { onAuthUserAction } from "@action/header.action";
 
 const HeaderContainer = () => {
     useScript("/assets/js/theme.bundle.min.js");
+    const dispatch = useDispatch();
+    const navi = useNavigate();
     const {pathname} = useLocation();
+    const { principal } = useSelector((root: RootState) => root.HeaderReducer);
+
+    const onClickCreate = () => {
+        if (principal) 
+            navi('/create');
+        else {
+            dispatch(onChangeNoticeMessageAction('로그인 후 이용 가능합니다.'));
+            dispatch(onToggleNoticeModalAction());
+        }
+    }
+
+    const getPrincipal = async () => {
+        const authClient = await AuthClient.create();
+        const identity = authClient.getIdentity();
+        if (identity) {
+            const principal = identity.getPrincipal();
+            dispatch(onAuthUserAction(principal.toString()));
+        }
+    }
+
+    React.useEffect(() => {
+
+    }, []);
 
     return (
         <header className="z-fixed header-absolute-top header-transparent sticky-reverse">
@@ -23,7 +54,7 @@ const HeaderContainer = () => {
                                 <Link to={"/detail"} className={!pathname.includes('create') ? "nav-link active" : 'nav-link'}>Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to={"/create"} className={pathname.includes('create') ? "nav-link active" : 'nav-link' }>Create</Link>
+                                <span onClick={() => onClickCreate()} className={pathname.includes('create') ? "nav-link active" : 'nav-link' }>Create</span>
                             </li>
                         </ul>
                     </div>

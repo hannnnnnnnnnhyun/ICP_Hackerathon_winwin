@@ -36,4 +36,14 @@ export const NFT = Record({
     onSale: bool    
 });
 // pick
+export const Bet = Record({
+    id: Principal, // TransactionId랑 같음
+    users: Vec(Principal), // User 투표 하면 추가 =
+});
 
+export const Betting = Record({
+    id: Principal,
+    finish: bool, 
+    totalAmount: nat,
+    bets: Vec(Bet),
+});

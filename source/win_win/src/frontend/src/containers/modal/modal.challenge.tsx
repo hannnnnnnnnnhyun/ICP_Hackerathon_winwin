@@ -7,17 +7,19 @@ import {useEffect, useRef, useState} from "react";
 import { BackendActor } from "@actor/backend.actor";
 import { imageToBlob } from "@helper/converter";
 import { Principal } from '@dfinity/principal';
+import { AuthClient } from "@dfinity/auth-client";
 
 const ModalChallenge = () => {
     const dispatch = useDispatch();
     const { isOpenChallengeModal, challengeId } = useSelector((root: RootState) => root.ModalReducer);
-    const { authClient } = useSelector((root: RootState) => root.HeaderReducer);
+    const { principal } = useSelector((root: RootState) => root.HeaderReducer);
     const [imagePreview, setImagePreview] = useState<string>('');
     const [image, setImage] = useState<FileList | null>(null);
     const imageInput = useRef<HTMLInputElement>(null);
 
     const onSubmit = async ()  => {
         dispatch(onToggleLoadingModalAction(true));
+        const authClient = await AuthClient.create();
         await BackendActor.setAuthClient(authClient);
         const actor = await BackendActor.getBackendActor();
         const file = image[0];
@@ -35,7 +37,7 @@ const ModalChallenge = () => {
         console.log('result: ', result);
         dispatch(onToggleLoadingModalAction(false));
         dispatch(onToggleChallengeModalAction());
-        // window.location.reload();
+        window.location.reload();
     }
 
     useEffect(() => {

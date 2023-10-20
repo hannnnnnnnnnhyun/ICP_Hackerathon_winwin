@@ -28,3 +28,8 @@ update:
 .SILENT: identify
 identify: 
 	./scripts/install_identity.sh
+
+.PHONY: dev
+.SILENT: dev
+dev: 
+	./scripts/dev.sh

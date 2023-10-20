@@ -25,6 +25,7 @@
     --bs-gray-900: #1A1E30;
     --bs-primary: #528ff0 !important;
     --bs-primary-rgb:82, 143, 240 !important;
+    --bs-primary-bg-subtle: rgba(82, 143, 240, 0.1) !important;
 }
 
 .btn-primary {

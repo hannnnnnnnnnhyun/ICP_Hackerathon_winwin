@@ -5,9 +5,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "@reducer/root.reducer";
 import { BackendActor } from "@actor/backend.actor";
 import {imageToBlob} from "@helper/converter";
+import { useDispatch } from "react-redux";
+import { onChangeNoticeMessageAction, onToggleNoticeModalAction } from "@action/modal.action";
+import { AuthClient } from "@dfinity/auth-client";
 
 const CreateFormComponent = () => {
-    const { authClient } = useSelector((root: RootState) => root.HeaderReducer);
+    const dispatch = useDispatch();
+    const { principal } = useSelector((root: RootState) => root.HeaderReducer);
     const [imagePreview, setImagePreview] = useState<string>('');
     const { register, handleSubmit, watch, setValue} = useForm();
     const imageInput = useRef<HTMLInputElement>(null);
@@ -21,6 +25,7 @@ const CreateFormComponent = () => {
     }, [logo]);
 
     const onSubmit = async (data: any)  => {
+        const authClient = await AuthClient.create();
         await BackendActor.setAuthClient(authClient);
         const actor = await BackendActor.getBackendActor();
         const file = logo[0];
@@ -37,7 +42,13 @@ const CreateFormComponent = () => {
             price: BigInt(data.price),
             logo: byteLogo,
         });
-        console.log('result: ', result);
+        if (result === true) {
+            dispatch(onChangeNoticeMessageAction('이벤트가 생성되었습니다.'));
+            dispatch(onToggleNoticeModalAction());
+        } else {
+            dispatch(onChangeNoticeMessageAction('이벤트 생성에 실패했습니다.\n다시 시도해주세요.'));
+            dispatch(onToggleNoticeModalAction());
+        }
         // actor.createEvent(authClient.getIdentity().getPrincipal(), {data.name, data.location, data.category, data.price, data.logo[0]})
     }
 

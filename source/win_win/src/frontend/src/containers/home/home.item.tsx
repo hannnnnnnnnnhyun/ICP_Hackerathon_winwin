@@ -7,7 +7,7 @@ import {convertImage} from "@helper/converter";
 const HomeItemComponent = (props: { event: Event }) => {
     const event = props.event;
 
-
+    console.log('event: ', event)
     // var blob = new Blob([uint8array]);
 
     return (

@@ -44,11 +44,11 @@ const DetailContainer = () => {
         dispatch(onToggleLoadingModalAction(true));
         const id = Principal.fromText(params.id);
         getEvent(id);
-        getTransaction(id);
     }, []);
 
     useEffect(() => {
         const id = Principal.fromText(params.id);
+        console.log('page: ', page);
         getTransaction(id);
     }, [page]);
 

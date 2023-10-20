@@ -10,6 +10,7 @@ import Detail from "@container/detail/deatil";
 import ModalChallenge from "@container/modal/modal.challenge";
 import ModalFinish from "@container/modal/modal.finish";
 import LoadingModal from "@container/modal/modal.loading";
+import NoticeModal from "@container/modal/modal.notice";
 declare global {
   interface Window {
     ic: any;
@@ -18,20 +19,19 @@ declare global {
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Header/>
-        <Routes>
-          <Route path={"*"} element={<Home/>}/>
-          <Route path={"/create"} element={<Create/>}/>
-          <Route path={"/detail/:id"} element={<Detail/>}/>
-        </Routes>
-        <FooterContainer />
-        <ModalChallenge />
-        <ModalFinish />
-        <LoadingModal />
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Header/>
+      <Routes>
+        <Route path={"*"} element={<Home/>}/>
+        <Route path={"/create"} element={<Create/>}/>
+        <Route path={"/detail/:id"} element={<Detail/>}/>
+      </Routes>
+      <FooterContainer />
+      <ModalChallenge />
+      <ModalFinish />
+      <LoadingModal />
+      <NoticeModal /> 
+    </BrowserRouter>
   )
 }
 
