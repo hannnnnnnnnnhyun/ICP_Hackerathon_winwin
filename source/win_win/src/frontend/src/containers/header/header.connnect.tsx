@@ -35,10 +35,10 @@ const HeaderConnectComponent = () => {
             {
                 authClient 
                 ?   <div className="nav-item btn-group me-2 me-lg-0" style={{cursor: "none"}}>
-                        <span className="btn btn-sm btn-primary py-1 px-3"><AssignmentInd className={"bx me-1"}/>{(authClient as AuthClient)?.getIdentity().getPrincipal().toString().split('-')[0]}</span>
+                        <span className="btn btn-sm btn-primary py-1 px-3"><i className="bx bxs-user-circle me-1"></i>{(authClient as AuthClient)?.getIdentity().getPrincipal().toString().split('-')[0]}</span>
                     </div>
                 :   <div className="nav-item btn-group me-2 me-lg-0" onClick={() => onConnect()}>
-                        <span className="btn btn-sm btn-primary py-1 px-3"><AssignmentInd className={"bx me-1"}/>Connect</span>
+                        <span className="btn btn-sm btn-primary py-1 px-3"><i className="bx bxs-user-circle me-1"></i>Connect</span>
                     </div>
             }
             

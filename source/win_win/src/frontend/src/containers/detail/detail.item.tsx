@@ -20,7 +20,7 @@ const DetailItem = (prop: { transaction: Transaction }) => {
                     <span className="d-block overflow-hidden rounded-3"
                        data-bs-toggle="modal" aria-expanded="false">
                         <img src={convertImage(transaction.pic)} className="img-fluid"
-                             style={{height: '280px'}} alt=""/>
+                             style={{height: '280px', width: "100%"}} alt=""/>
                     </span>
                 </div>
                 <div className="card-body overflow-hidden p-4 px-lg-5 flex-grow-1">

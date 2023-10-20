@@ -18,18 +18,7 @@
             "output": "src/frontend/declarations/icrc1_ledger_canister"
           }
         },
-        "frontend": {
-          "dependencies": [
-
-            ],
-          "frontend": {
-            "entrypoint": "src/frontend/index.html"
-          },
-          "source": [
-            "src/frontend/dist"
-          ],
-          "type": "assets"
-        },
+       
         "internet_identity": {
           "type": "custom",
           "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
@@ -43,6 +32,18 @@
           "declarations": {
             "output": "src/frontend/declarations/internet_identity"
           }
+        },
+        "frontend": {
+          "dependencies": [
+              "backend", "icrc1_ledger_canister", "internet_identity"
+          ],
+          "frontend": {
+            "entrypoint": "src/frontend/index.html"
+          },
+          "source": [
+            "src/frontend/dist"
+          ],
+          "type": "assets"
         }
     },
     "defaults": {

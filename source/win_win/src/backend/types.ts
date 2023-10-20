@@ -1,4 +1,4 @@
-import { Principal, Record, Vec, nat, text, bool, blob } from "azle";
+import { Principal, Record, Vec, nat, text, bool, blob, int32 } from "azle";
 
 export const User = Record({
     eventIds: Vec(Principal)
@@ -22,7 +22,18 @@ export const Event = Record({
     transactions: Vec(Challenge),
 });
 
+export const Metadata = Record({
+    name: text,
+    description: text,
+    image: blob,
+});
 
-
+export const NFT = Record({
+    id: int32,
+    metadata: Metadata,
+    owner: Principal,
+    price: nat,
+    onSale: bool    
+});
 // pick
 

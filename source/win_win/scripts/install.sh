@@ -1,5 +1,10 @@
 set -e
-# dfx stop && dfx start --background --clean --host 127.0.0.1:8322
+dfx stop && dfx start --background --clean --host 127.0.0.1:8321
+pwd
+rm -rf src/frontend/dist || true
+azle backend || true
+
+II_FETCH_ROOT_KEY=1 dfx deploy internet_identity --no-wallet --argument '(null)'
 
 dfx identity use minter
 export MINTER=$(dfx identity get-principal)
@@ -37,6 +42,15 @@ record {
 dfx generate icrc1_ledger_canister
 dfx generate backend
 dfx deploy backend
+
+dfx canister create frontend
+pushd src/frontend
+npm install
+npm run build
+popd
+dfx build frontend || true
+dfx canister install frontend
+echo "http://$(dfx canister id frontend).localhost:8321/"
 
 # dfx canister update-settings icrc1_ledger_canister --add-controller bkyz2-fmaaa-aaaaa-qaaaq-cai  
 
