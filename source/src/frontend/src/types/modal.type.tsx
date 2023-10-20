@@ -11,6 +11,7 @@ export type ModalState = {
     isOpenFinishModal: boolean;
     isOpenLoadingModal: boolean;
     isOpenNoticeModal: boolean;
+    isOpenConfirmModal: boolean;
 }
 
 export type ModalActions = ActionType<typeof actions>;

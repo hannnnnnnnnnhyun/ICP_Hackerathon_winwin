@@ -7,6 +7,7 @@ const initialState: ModalState = {
     isOpenChallengeModal: false,
     isOpenLoadingModal: false,
     isOpenNoticeModal: false,
+    isOpenConfirmModal: false,
 
     challengeId: undefined,
     transaction: undefined,
