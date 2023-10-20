@@ -7,7 +7,7 @@ export const idlFactory = ({ IDL }) => {
             'creator' : IDL.Principal,
             'logo' : IDL.Vec(IDL.Nat8),
             'name' : IDL.Text,
-            'finish' : IDL.Bool,
+            'state' : IDL.Text,
             'category' : IDL.Text,
             'transactions' : IDL.Vec(
               IDL.Record({
@@ -49,7 +49,6 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Bool],
         [],
       ),
-    'get' : IDL.Func([], [IDL.Text], ['query']),
     'getAllEvents' : IDL.Func(
         [],
         [
@@ -59,7 +58,7 @@ export const idlFactory = ({ IDL }) => {
               'creator' : IDL.Principal,
               'logo' : IDL.Vec(IDL.Nat8),
               'name' : IDL.Text,
-              'finish' : IDL.Bool,
+              'state' : IDL.Text,
               'category' : IDL.Text,
               'transactions' : IDL.Vec(
                 IDL.Record({
@@ -88,7 +87,6 @@ export const idlFactory = ({ IDL }) => {
         ],
         ['query'],
       ),
-    'getBettingId' : IDL.Func([], [IDL.Principal], ['query']),
     'getEvent' : IDL.Func(
         [IDL.Principal],
         [
@@ -98,7 +96,7 @@ export const idlFactory = ({ IDL }) => {
               'creator' : IDL.Principal,
               'logo' : IDL.Vec(IDL.Nat8),
               'name' : IDL.Text,
-              'finish' : IDL.Bool,
+              'state' : IDL.Text,
               'category' : IDL.Text,
               'transactions' : IDL.Vec(
                 IDL.Record({
@@ -123,7 +121,7 @@ export const idlFactory = ({ IDL }) => {
               'creator' : IDL.Principal,
               'logo' : IDL.Vec(IDL.Nat8),
               'name' : IDL.Text,
-              'finish' : IDL.Bool,
+              'state' : IDL.Text,
               'category' : IDL.Text,
               'transactions' : IDL.Vec(
                 IDL.Record({
@@ -148,7 +146,7 @@ export const idlFactory = ({ IDL }) => {
               'creator' : IDL.Principal,
               'logo' : IDL.Vec(IDL.Nat8),
               'name' : IDL.Text,
-              'finish' : IDL.Bool,
+              'state' : IDL.Text,
               'category' : IDL.Text,
               'transactions' : IDL.Vec(
                 IDL.Record({
@@ -164,7 +162,6 @@ export const idlFactory = ({ IDL }) => {
         ],
         ['query'],
       ),
-    'getText' : IDL.Func([], [IDL.Text], []),
     'getTransactions' : IDL.Func(
         [IDL.Principal, IDL.Int32, IDL.Int32],
         [
@@ -178,7 +175,8 @@ export const idlFactory = ({ IDL }) => {
         ],
         ['query'],
       ),
-    'set' : IDL.Func([IDL.Text], [IDL.Text], []),
+    'insertBet' : IDL.Func([IDL.Principal, IDL.Principal], [IDL.Bool], []),
+    'startBetting' : IDL.Func([IDL.Principal], [IDL.Bool], []),
   });
 };
 export const init = ({ IDL }) => { return [IDL.Principal]; };

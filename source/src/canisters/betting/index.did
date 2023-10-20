@@ -1,0 +1,4 @@
+service: () -> {
+    createBetting: (principal) -> (record {id:principal; bets:vec record {id:principal; users:vec principal}; finish:bool; totalAmount:nat});
+    insertBet: (principal, principal) -> (bool);
+}

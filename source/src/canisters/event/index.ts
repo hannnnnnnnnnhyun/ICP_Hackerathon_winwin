@@ -207,18 +207,18 @@ export default Canister({
         return true;
     }),
 
-    startBetting: update([Principal, Vec(Principal)], text, async (eventId, transactionIds) => {
+    startBetting: update([Principal], bool, async (eventId) => {
         const caller = ic.caller();
         const eventOpt = events.get(eventId);
         if ('None' in eventOpt) {
-            return ' event is not exist ';
+            return false;
         }
         const event = eventOpt.Some;
         if (event.creator !== caller) {
-            return ' creator is not caller ';
+            return false;
         }
         if (event.state !== 'open') {
-            return ' event is not open ';
+            return false;
         }
         // event state update
         const new_event: typeof Event = {
@@ -232,22 +232,28 @@ export default Canister({
             state: 'betting',
             transactions: event.transactions
         };
-        
         events.insert(eventId, new_event);
+        const new_betting = await ic.call(bettingCanister.createBetting, {
+            args: [eventId]
+        });
 
-        const new_betting: typeof Betting = {
-            id: eventId,
-            finish: false,
-            totalAmount: event.price,
-            bets: transactionIds.map((transactionId) => {
-                return {
-                    id: transactionId,
-                    users: []
-                }
-            })
-        };
-        // bettingCanister.createBetting(id, users);
-        return id;
+        return true;
+    }),
+
+    insertBet: update([Principal, Principal], bool, async (eventId, txId) => {
+        const eventOpt = events.get(eventId);
+        if ('None' in eventOpt) {
+            return false;
+        }
+        const event = eventOpt.Some;
+        if (event.state !== 'betting') {
+            return false;
+        }
+
+        const result = await ic.call(bettingCanister.insertBet, {
+            args: [eventId, txId]
+        });
+        return result;
     }),
 });
 
