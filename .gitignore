@@ -14,7 +14,7 @@ dist-ssr
 src/frontend/node_modules
 src/frontend/dist
 src/frontend/package-lock.json
-src/win_win/
+src/win_win
 
 # Editor directories and files
 .vscode/*

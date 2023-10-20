@@ -1,6 +1,7 @@
-import { Canister, query, StableBTreeMap, text, update, Record, Vec, bool, Principal, Opt, nat, nat8, nat64, ic, Variant, int32, None, Null, blob } from 'azle';
-import { Challenge, Event, User } from "../types";
-// This is a global variable that is stored on the heap
+import { Canister, query, StableBTreeMap, text, update, Record, Vec, bool, Principal, Opt, nat, nat8, nat64, ic, Variant, int32, None, Null, blob, init } from 'azle';
+import { Challenge, Event, User, Betting } from "../types";
+import BettingCanister from '../betting';
+
 let users = StableBTreeMap(Principal, User, 0);
 let events = StableBTreeMap(Principal, Event, 1);
 
@@ -64,8 +65,15 @@ const token = Canister({
 const tokenCanister = token(
     Principal.fromText('mxzaz-hqaaa-aaaar-qaada-cai')
 );
+let bettingCanister: typeof BettingCanister;
+let bettingId: Principal
 
 export default Canister({
+    init: init([Principal], (_bettingId) => {
+        bettingId = _bettingId;
+        bettingCanister = BettingCanister(_bettingId);
+    }),
+
     createEvent: update([Event], bool, async (event) => {
         const caller = ic.caller();
         const userOpt = users.get(caller);
@@ -81,7 +89,7 @@ export default Canister({
             category: event.category,
             price: event.price,
             creator: caller,
-            finish: false,
+            state: 'open',
             transactions: []
         };
         events.insert(id, new_event);
@@ -171,7 +179,7 @@ export default Canister({
             category: event.category,
             price: event.price,
             creator: event.creator,
-            finish: event.finish,
+            state: event.state,
             transactions: [...event.transactions, new_challenge]
         };
         events.insert(eventId, new_event);
@@ -190,14 +198,57 @@ export default Canister({
 
         if (event.creator !== caller)
             return false;
-        event.finish = true;
+        // event.finish = true;
         const winner = challenge.Some!.challenger;
         const amount = event.price - 1n;
         ic.call(tokenCanister.icrc1_transfer, {
             args: [{ to: { owner: winner, subaccount: None }, fee: None, memo: None, from_subaccount: None, created_at_time: None, amount}]
         })
         return true;
-    })
+    }),
+
+    startBetting: update([Principal, Vec(Principal)], text, async (eventId, transactionIds) => {
+        const caller = ic.caller();
+        const eventOpt = events.get(eventId);
+        if ('None' in eventOpt) {
+            return ' event is not exist ';
+        }
+        const event = eventOpt.Some;
+        if (event.creator !== caller) {
+            return ' creator is not caller ';
+        }
+        if (event.state !== 'open') {
+            return ' event is not open ';
+        }
+        // event state update
+        const new_event: typeof Event = {
+            id: event.id,
+            name: event.name,
+            location: event.location,
+            logo: event.logo,
+            category: event.category,
+            price: event.price,
+            creator: event.creator,
+            state: 'betting',
+            transactions: event.transactions
+        };
+        
+        events.insert(eventId, new_event);
+
+        const new_betting: typeof Betting = {
+            id: eventId,
+            finish: false,
+            totalAmount: event.price,
+            bets: transactionIds.map((transactionId) => {
+                return {
+                    id: transactionId,
+                    users: []
+                }
+            })
+        };
+        // bettingCanister.createBetting(id, users);
+        return id;
+    }),
 });
 
 function generateId(): Principal {

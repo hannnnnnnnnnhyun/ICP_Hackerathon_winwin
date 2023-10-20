@@ -48,6 +48,7 @@ export interface _SERVICE {
     ],
     boolean
   >,
+  'get' : ActorMethod<[], string>,
   'getAllEvents' : ActorMethod<
     [],
     Array<
@@ -80,6 +81,7 @@ export interface _SERVICE {
       }
     >
   >,
+  'getBettingId' : ActorMethod<[], Principal>,
   'getEvent' : ActorMethod<
     [Principal],
     [] | [
@@ -146,6 +148,7 @@ export interface _SERVICE {
       }
     >
   >,
+  'getText' : ActorMethod<[], string>,
   'getTransactions' : ActorMethod<
     [Principal, number, number],
     Array<
@@ -156,4 +159,5 @@ export interface _SERVICE {
       }
     >
   >,
+  'set' : ActorMethod<[string], string>,
 }

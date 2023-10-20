@@ -8,7 +8,7 @@ const amount = 10n;
 
 export default Canister({
     
-    createBetting: update([Principal, Vec(Bet)], bool, (eventId, bets) => {
+    createBetting: update([Principal, Vec(Bet)], Betting, (eventId, bets) => {
         const caller = ic.caller();
         const userOpt = users.get(caller);
         const new_betting: typeof Betting = {
@@ -22,7 +22,7 @@ export default Canister({
             users.insert(caller, [...user, new_betting])
         }
 
-        return true;
+        return new_betting;
     }),
 
     // bet: update([Principal, Principal], bool, (bettingId, txId) => {

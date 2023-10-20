@@ -18,7 +18,7 @@ export const Event = Record({
     category: text,
     price: nat,
     creator: Principal,
-    finish: bool,
+    state: text,
     transactions: Vec(Challenge),
 });
 
@@ -32,8 +32,6 @@ export const NFT = Record({
     id: int32,
     metadata: Metadata,
     owner: Principal,
-    price: nat,
-    onSale: bool    
 });
 // pick
 export const Bet = Record({

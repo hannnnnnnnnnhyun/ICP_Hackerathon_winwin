@@ -29,6 +29,11 @@ update:
 identify: 
 	./scripts/install_identity.sh
 
+.PHONY: test
+.SILENT: test
+test: 
+	./scripts/event_test.sh
+
 .PHONY: dev
 .SILENT: dev
 dev: 

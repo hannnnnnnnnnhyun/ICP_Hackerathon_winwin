@@ -10,6 +10,16 @@
               "output": "src/frontend/declarations/event"
             }
         },
+        "betting": {
+          "type": "custom",
+          "main": "src/canisters/betting/index.ts",
+          "candid": "src/canisters/betting/index.did",
+          "wasm": ".azle/betting/betting.wasm",
+          "gzip": true,
+          "declarations": {
+            "output": "src/frontend/declarations/betting"
+          }
+      },
         "icrc1_ledger_canister": {
           "type": "custom",
           "candid": "https://raw.githubusercontent.com/dfinity/ic/d87954601e4b22972899e9957e800406a0a6b929/rs/rosetta-api/icrc1/ledger/ledger.did",
