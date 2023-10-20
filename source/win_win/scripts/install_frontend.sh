@@ -1,7 +1,3 @@
-# #!/bin/bash
-set -e
-dfx stop && dfx start --background --clean --host 127.0.0.1:8321
-rm -rf ../src/frontend/dist || true
 
 dfx canister create frontend
 echo "created frontend"

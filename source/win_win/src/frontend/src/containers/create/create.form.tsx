@@ -2,9 +2,14 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import {useEffect, useRef, useState} from "react";
 import { useSelector } from "react-redux";
+import { Principal } from '@dfinity/principal'
 import { RootState } from "@reducer/root.reducer";
 import { BackendActor } from "@actor/backend.actor";
+import { canisterId, createActor } from '../../../declarations/icrc1_ledger_canister'
+import { canisterId as backendId} from '../../../declarations/backend'
 import {imageToBlob} from "@helper/converter";
+import { HttpAgent } from "@dfinity/agent";
+
 
 const CreateFormComponent = () => {
     const { authClient } = useSelector((root: RootState) => root.HeaderReducer);
@@ -26,6 +31,20 @@ const CreateFormComponent = () => {
         const file = logo[0];
         const blobLogo: any = await imageToBlob(file);
         const byteLogo = new Uint8Array(blobLogo);
+        const tokenActor = createActor(canisterId.toString(), {agent: new HttpAgent({identity: authClient.getIdentity()})});
+        let allowance = await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(backendId), subaccount: []}})
+        console.log('allowance: ', allowance.allowance);
+        await tokenActor.icrc2_approve({
+            amount: allowance.allowance + BigInt(data.price) - 2n,
+            spender: {owner: Principal.fromText(backendId), subaccount: []},
+            fee: [],
+            memo: [],
+            from_subaccount: [],
+            created_at_time: [],
+            expected_allowance: [],
+            expires_at: []
+        })
+        console.log('allowance: ', await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(backendId), subaccount: []}}));
         const result = await actor.createEvent({
             id: authClient.getIdentity().getPrincipal(),
             creator: authClient.getIdentity().getPrincipal(),

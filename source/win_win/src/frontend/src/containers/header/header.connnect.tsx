@@ -29,7 +29,7 @@ const HeaderConnectComponent = () => {
         console.log("identity: ", authClient.getIdentity().getPrincipal().toString());
         dispatch(onAuthUserAction(authClient));
     }
-
+    
     return (
         <div className="d-flex align-items-center navbar-no-collapse-items order-lg-last">
             {
