@@ -3,12 +3,17 @@ import React from "react";
 import {convertImage} from "@helper/converter";
 import {useDispatch, useSelector} from "react-redux";
 import { onChangeTransactionAction, onToggleFinishModalAction } from "@action/modal.action";
+import { RootState } from "@reducer/root.reducer";
 
 const DetailItem = (prop: { transaction: Transaction }) => {
     const dispatch = useDispatch();
+    const { principal } = useSelector((root: RootState) => root.HeaderReducer);
+    const { event } = useSelector((root: RootState) => root.DetailReducer);
     const {transaction} = prop;
 
     const onClickItem = () => {
+        if (principal !== event.creator.toText()) 
+            return;
         dispatch(onChangeTransactionAction(transaction));
         dispatch(onToggleFinishModalAction());
     }
