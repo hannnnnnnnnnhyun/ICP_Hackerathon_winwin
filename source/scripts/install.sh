@@ -2,7 +2,11 @@ set -e
 dfx stop && dfx start --background --clean --host 127.0.0.1:8321
 pwd
 rm -rf src/frontend/dist || true
-azle event || true
+
+azle betting || true
+dfx generate betting
+dfx deploy betting
+
 
 II_FETCH_ROOT_KEY=1 dfx deploy internet_identity --no-wallet --argument '(null)'
 
@@ -40,8 +44,10 @@ record {
  }
 })"
 dfx generate icrc1_ledger_canister
+
+azle event || true
 dfx generate event
-dfx deploy event
+dfx deploy event --argument "( principal \"$(dfx canister id betting)\")"
 
 dfx canister create frontend
 pushd src/frontend
