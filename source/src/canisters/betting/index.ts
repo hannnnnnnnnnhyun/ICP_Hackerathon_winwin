@@ -3,27 +3,34 @@ import { Challenge, Bet, Betting } from "../types";
 
 
 let bettings = StableBTreeMap(Principal, Betting, 0);
-let users = StableBTreeMap(Principal, Vec(Betting), 1);
 const amount = 10n;
 
 export default Canister({
     
-    createBetting: update([Principal, Vec(Bet)], Betting, (eventId, bets) => {
+    createBetting: update([Principal], Betting, (eventId) => {
         const caller = ic.caller();
-        const userOpt = users.get(caller);
         const new_betting: typeof Betting = {
-            id: eventId, finish: false, totalAmount: 0n, bets
+            id: eventId, finish: false, totalAmount: 0n, bets: []
         }
         bettings.insert(eventId, new_betting)
-        if('None' in userOpt)
-            users.insert(caller, [new_betting]);
-        else{
-            const user = userOpt.Some;
-            users.insert(caller, [...user, new_betting])
-        }
-
         return new_betting;
     }),
+
+    insertBet: update([Principal, Principal], bool, (eventId, txId) => {
+        const bettingOpt = bettings.get(eventId);
+        if('None' in bettingOpt)
+            return false;
+
+        const betting = bettingOpt.Some;
+        const new_bet: typeof Bet = {
+            id: txId, users: []
+        };
+        const new_betting: typeof Betting = {
+            id: betting.id, finish: false, totalAmount: betting.totalAmount, bets: [...betting.bets, new_bet]
+        }
+        bettings.insert(eventId, new_betting);
+        return true;
+    })
 
     // bet: update([Principal, Principal], bool, (bettingId, txId) => {
     //     const caller = ic.caller();
@@ -32,13 +39,15 @@ export default Canister({
     //         return false;
     //     const betting = bettingOpt.Some;
     //     const bets = betting.bets;
-    //     let new_betUsers: Principal[];
-    //     for(let i = 0; i < 5; i++) {
+
+    //     let betUsers: Principal[]
+    //     for(let i = 0; i < bets.length; i++) {
     //         if(bets[i].id === txId)
-    //             new_betUsers = [...bets[i].users, caller];
+    //             betUsers = bets[i].users;
     //     }
+    
     //     const new_betting: typeof Betting = {
-    //         id: betting.id, finish: false, totalAmount: betting.totalAmount + amount, bets: new_betUsers
+    //         id: betting.id, finish: false, totalAmount: betting.totalAmount + amount, bets: [..., caller]
     //     }
     //     return true;
     // })
