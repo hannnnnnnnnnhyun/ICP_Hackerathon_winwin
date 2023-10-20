@@ -28,7 +28,6 @@ function App() {
       </Routes>
       <FooterContainer />
       <ModalChallenge />
-      <ModalFinish />
       <LoadingModal />
       <NoticeModal /> 
     </BrowserRouter>
