@@ -4,10 +4,9 @@ export const convertImage = (image: Uint8Array|number[]) => {
         return `data:image/png;base64,${base64String}`;
     } catch (e) {
         const tempImage = Buffer.from(image);
-        return `data:image/png;base64,` + tempImage.toString("base64") 
+        return 'data:image/png;base64,' + tempImage.toString("base64")
     }
 }
-
 export const imageToBlob = (file: File) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
