@@ -6,11 +6,13 @@ import { RootState } from "@reducer/root.reducer";
 import { EventActor } from "@actor/event.actor";
 import {imageToBlob} from "@helper/converter";
 import { useDispatch } from "react-redux";
-import { onChangeNoticeMessageAction, onToggleNoticeModalAction } from "@action/modal.action";
+import { onChangeNoticeMessageAction, onToggleNoticeModalAction, onToggleLoadingModalAction } from "@action/modal.action";
 import { AuthClient } from "@dfinity/auth-client";
+import { useNavigate } from "react-router";
 
 const CreateFormComponent = () => {
     const dispatch = useDispatch();
+    const navi = useNavigate();
     const { principal } = useSelector((root: RootState) => root.HeaderReducer);
     const [imagePreview, setImagePreview] = useState<string>('');
     const { register, handleSubmit, watch, setValue} = useForm();
@@ -25,6 +27,7 @@ const CreateFormComponent = () => {
     }, [logo]);
 
     const onSubmit = async (data: any)  => {
+        dispatch(onToggleLoadingModalAction(true));
         const authClient = await AuthClient.create();
         await EventActor.setAuthClient(authClient);
         const actor = await EventActor.getEventActor();
@@ -45,6 +48,10 @@ const CreateFormComponent = () => {
         if (result === true) {
             dispatch(onChangeNoticeMessageAction('이벤트가 생성되었습니다.'));
             dispatch(onToggleNoticeModalAction());
+            dispatch(onToggleLoadingModalAction(false));
+            setTimeout(() => {
+                navi('/');
+            }, 1500)
         } else {
             dispatch(onChangeNoticeMessageAction('이벤트 생성에 실패했습니다.\n다시 시도해주세요.'));
             dispatch(onToggleNoticeModalAction());

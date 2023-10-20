@@ -31,6 +31,7 @@ const ModalChallenge = () => {
                 id: authClient.getIdentity().getPrincipal(),
                 pic: byteLogo,
                 challenger: authClient.getIdentity().getPrincipal(),
+                pick: false
             }
         );
         console.log("Challenge Success!");

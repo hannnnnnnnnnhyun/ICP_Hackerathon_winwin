@@ -13,6 +13,7 @@ export const idlFactory = ({ IDL }) => {
               IDL.Record({
                 'id' : IDL.Principal,
                 'pic' : IDL.Vec(IDL.Nat8),
+                'pick' : IDL.Bool,
                 'challenger' : IDL.Principal,
               })
             ),
@@ -29,6 +30,7 @@ export const idlFactory = ({ IDL }) => {
           IDL.Record({
             'id' : IDL.Principal,
             'pic' : IDL.Vec(IDL.Nat8),
+            'pick' : IDL.Bool,
             'challenger' : IDL.Principal,
           }),
         ],
@@ -42,6 +44,7 @@ export const idlFactory = ({ IDL }) => {
             IDL.Record({
               'id' : IDL.Principal,
               'pic' : IDL.Vec(IDL.Nat8),
+              'pick' : IDL.Bool,
               'challenger' : IDL.Principal,
             })
           ),
@@ -64,6 +67,7 @@ export const idlFactory = ({ IDL }) => {
                 IDL.Record({
                   'id' : IDL.Principal,
                   'pic' : IDL.Vec(IDL.Nat8),
+                  'pick' : IDL.Bool,
                   'challenger' : IDL.Principal,
                 })
               ),
@@ -81,12 +85,14 @@ export const idlFactory = ({ IDL }) => {
             IDL.Record({
               'id' : IDL.Principal,
               'pic' : IDL.Vec(IDL.Nat8),
+              'pick' : IDL.Bool,
               'challenger' : IDL.Principal,
             })
           ),
         ],
         ['query'],
       ),
+    'getBettingId' : IDL.Func([], [IDL.Text], ['query']),
     'getEvent' : IDL.Func(
         [IDL.Principal],
         [
@@ -102,6 +108,7 @@ export const idlFactory = ({ IDL }) => {
                 IDL.Record({
                   'id' : IDL.Principal,
                   'pic' : IDL.Vec(IDL.Nat8),
+                  'pick' : IDL.Bool,
                   'challenger' : IDL.Principal,
                 })
               ),
@@ -127,6 +134,7 @@ export const idlFactory = ({ IDL }) => {
                 IDL.Record({
                   'id' : IDL.Principal,
                   'pic' : IDL.Vec(IDL.Nat8),
+                  'pick' : IDL.Bool,
                   'challenger' : IDL.Principal,
                 })
               ),
@@ -152,6 +160,7 @@ export const idlFactory = ({ IDL }) => {
                 IDL.Record({
                   'id' : IDL.Principal,
                   'pic' : IDL.Vec(IDL.Nat8),
+                  'pick' : IDL.Bool,
                   'challenger' : IDL.Principal,
                 })
               ),
@@ -169,14 +178,15 @@ export const idlFactory = ({ IDL }) => {
             IDL.Record({
               'id' : IDL.Principal,
               'pic' : IDL.Vec(IDL.Nat8),
+              'pick' : IDL.Bool,
               'challenger' : IDL.Principal,
             })
           ),
         ],
         ['query'],
       ),
-    'insertBet' : IDL.Func([IDL.Principal, IDL.Principal], [IDL.Bool], []),
-    'startBetting' : IDL.Func([IDL.Principal], [IDL.Bool], []),
+    'insertBet' : IDL.Func([IDL.Principal, IDL.Principal], [IDL.Text], []),
+    'startBetting' : IDL.Func([IDL.Principal], [IDL.Text], []),
   });
 };
 export const init = ({ IDL }) => { return [IDL.Principal]; };

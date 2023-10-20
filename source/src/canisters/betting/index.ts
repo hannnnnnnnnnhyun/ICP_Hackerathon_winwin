@@ -8,11 +8,15 @@ const amount = 10n;
 export default Canister({
     
     createBetting: update([Principal], Betting, (eventId) => {
+        console.log('createBetting Start');
         const caller = ic.caller();
+        console.log('caller', caller);
         const new_betting: typeof Betting = {
             id: eventId, finish: false, totalAmount: 0n, bets: []
         }
+        console.log('create new_betting success!');
         bettings.insert(eventId, new_betting)
+        console.log('insert new_betting success!');
         return new_betting;
     }),
 

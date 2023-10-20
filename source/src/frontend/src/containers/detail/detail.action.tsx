@@ -1,4 +1,4 @@
-import { onChangeChallengeIdAction, onChangeNoticeMessageAction, onToggleChallengeModalAction, onToggleNoticeModalAction } from "@action/modal.action";
+import { onChangeChallengeIdAction, onChangeNoticeMessageAction, onToggleChallengeModalAction, onToggleNoticeModalAction, onToggleConfirmModalAction } from "@action/modal.action";
 import React from "react";
 import {useDispatch} from "react-redux";
 import { useParams } from 'react-router-dom';
@@ -22,8 +22,7 @@ const DetailActionComponent = () => {
     }
 
     const onClickStartChallenge = () => {
-        dispatch(onChangeChallengeIdAction(params.id));
-        dispatch(onToggleChallengeModalAction())
+        dispatch(onToggleConfirmModalAction());
     }
 
     const getActionView = () => {

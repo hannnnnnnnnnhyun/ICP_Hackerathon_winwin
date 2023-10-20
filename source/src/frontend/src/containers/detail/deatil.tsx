@@ -54,7 +54,7 @@ const DetailContainer = () => {
         getTransaction(id);
     }, [page]);
 
-    if (!event) 
+    if (event === undefined) 
         return (
             <div className="spinner-loader bg-primary text-white">
                 <div className="spinner-grow" role="status">

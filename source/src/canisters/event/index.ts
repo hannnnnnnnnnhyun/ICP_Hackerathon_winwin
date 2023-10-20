@@ -169,6 +169,7 @@ export default Canister({
             id: id,
             pic: challenge.pic,
             challenger: challenge.challenger,
+            pick: false
         };
 
         const new_event: typeof Event = {
@@ -207,18 +208,18 @@ export default Canister({
         return true;
     }),
 
-    startBetting: update([Principal], bool, async (eventId) => {
+    startBetting: update([Principal], text, async (eventId) => {
         const caller = ic.caller();
         const eventOpt = events.get(eventId);
         if ('None' in eventOpt) {
-            return false;
+            return "not found event ";
         }
         const event = eventOpt.Some;
-        if (event.creator !== caller) {
-            return false;
+        if (event.creator.toString() !== caller.toString()) {
+            return "not creator";
         }
         if (event.state !== 'open') {
-            return false;
+            return "not open";
         }
         // event state update
         const new_event: typeof Event = {
@@ -232,28 +233,80 @@ export default Canister({
             state: 'betting',
             transactions: event.transactions
         };
+        console.log("events insert success!");
         events.insert(eventId, new_event);
+        console.log("start betting");
         const new_betting = await ic.call(bettingCanister.createBetting, {
             args: [eventId]
         });
-
-        return true;
+        console.log("betting create success");
+        return "success";
     }),
 
-    insertBet: update([Principal, Principal], bool, async (eventId, txId) => {
+    insertBet: update([Principal, Principal], text, async (eventId, txId) => {
         const eventOpt = events.get(eventId);
         if ('None' in eventOpt) {
-            return false;
+            return 'not found event';
         }
         const event = eventOpt.Some;
         if (event.state !== 'betting') {
-            return false;
+            return 'not betting';
         }
+
+        // transaction.pick update to true
+        const transactions = event.transactions;
+        let transaction: typeof Challenge | null = null;
+
+        console.log("transactions.lenght" + transactions.length);
+
+        for (let i = 0; i < transactions.length; i++) {
+            if (transactions[i].id.toString() === txId.toString()) {
+                transaction = transactions[i];
+                break;
+            }
+        }
+        if (transaction === null) {
+            return 'not found transaction';
+        }
+
+        const new_transaction: typeof Challenge = {
+            id: transaction.id,
+            pic: transaction.pic,
+            challenger: transaction.challenger,
+            pick: true
+        };
+
+        const new_transactions = transactions.map((t) => {
+            if (t.id.toString() === txId.toString()) {
+                return new_transaction;
+            } else {
+                return t;
+            }
+        });
+
+        // event state update
+        const new_event: typeof Event = {
+            id: event.id,
+            name: event.name,
+            location: event.location,
+            logo: event.logo,
+            category: event.category,
+            price: event.price,
+            creator: event.creator,
+            state: event.state,
+            transactions: new_transactions
+        };
+
+        events.insert(eventId, new_event);
 
         const result = await ic.call(bettingCanister.insertBet, {
             args: [eventId, txId]
         });
-        return result;
+        return 'success';
+    }),
+
+    getBettingId: query([], text, () => {
+        return bettingId.toText();
     }),
 });
 

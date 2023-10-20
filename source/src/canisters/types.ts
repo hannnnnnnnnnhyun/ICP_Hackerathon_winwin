@@ -8,6 +8,7 @@ export const Challenge = Record({
     id: Principal,
     pic: blob,
     challenger: Principal,
+    pick: bool,
 });
 
 export const Event = Record({

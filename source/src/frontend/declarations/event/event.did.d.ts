@@ -15,6 +15,7 @@ export interface _SERVICE {
           {
             'id' : Principal,
             'pic' : Uint8Array | number[],
+            'pick' : boolean,
             'challenger' : Principal,
           }
         >,
@@ -30,6 +31,7 @@ export interface _SERVICE {
       {
         'id' : Principal,
         'pic' : Uint8Array | number[],
+        'pick' : boolean,
         'challenger' : Principal,
       },
     ],
@@ -42,6 +44,7 @@ export interface _SERVICE {
         {
           'id' : Principal,
           'pic' : Uint8Array | number[],
+          'pick' : boolean,
           'challenger' : Principal,
         }
       ],
@@ -62,6 +65,7 @@ export interface _SERVICE {
           {
             'id' : Principal,
             'pic' : Uint8Array | number[],
+            'pick' : boolean,
             'challenger' : Principal,
           }
         >,
@@ -76,10 +80,12 @@ export interface _SERVICE {
       {
         'id' : Principal,
         'pic' : Uint8Array | number[],
+        'pick' : boolean,
         'challenger' : Principal,
       }
     >
   >,
+  'getBettingId' : ActorMethod<[], string>,
   'getEvent' : ActorMethod<
     [Principal],
     [] | [
@@ -94,6 +100,7 @@ export interface _SERVICE {
           {
             'id' : Principal,
             'pic' : Uint8Array | number[],
+            'pick' : boolean,
             'challenger' : Principal,
           }
         >,
@@ -116,6 +123,7 @@ export interface _SERVICE {
           {
             'id' : Principal,
             'pic' : Uint8Array | number[],
+            'pick' : boolean,
             'challenger' : Principal,
           }
         >,
@@ -138,6 +146,7 @@ export interface _SERVICE {
           {
             'id' : Principal,
             'pic' : Uint8Array | number[],
+            'pick' : boolean,
             'challenger' : Principal,
           }
         >,
@@ -152,10 +161,11 @@ export interface _SERVICE {
       {
         'id' : Principal,
         'pic' : Uint8Array | number[],
+        'pick' : boolean,
         'challenger' : Principal,
       }
     >
   >,
-  'insertBet' : ActorMethod<[Principal, Principal], boolean>,
-  'startBetting' : ActorMethod<[Principal], boolean>,
+  'insertBet' : ActorMethod<[Principal, Principal], string>,
+  'startBetting' : ActorMethod<[Principal], string>,
 }

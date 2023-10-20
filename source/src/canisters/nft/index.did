@@ -1,0 +1,5 @@
+service: () -> {
+    getOwner: (principal) -> (vec record {id:int32; owner:principal; metadata:record {name:text; description:text; attributes:vec record {key:text; value:text}; image:vec nat8}}) query;
+    getTokenId: (int32) -> (opt record {id:int32; owner:principal; metadata:record {name:text; description:text; attributes:vec record {key:text; value:text}; image:vec nat8}}) query;
+    mint: (record {id:int32; owner:principal; metadata:record {name:text; description:text; attributes:vec record {key:text; value:text}; image:vec nat8}}, text) -> (int32);
+}

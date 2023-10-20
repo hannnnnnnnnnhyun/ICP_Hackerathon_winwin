@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import HeaderConnect from "./header.connnect";
 import useScript from "@helper/useScript";
@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { onChangeNoticeMessageAction, onToggleNoticeModalAction } from "@action/modal.action";
 import { AuthClient } from "@dfinity/auth-client";
 import { onAuthUserAction } from "@action/header.action";
+import { useEffect } from "react";
 
 const HeaderContainer = () => {
     useScript("/assets/js/theme.bundle.min.js");
@@ -34,8 +35,8 @@ const HeaderContainer = () => {
         }
     }
 
-    React.useEffect(() => {
-
+    useEffect(() => {
+        getPrincipal();
     }, []);
 
     return (

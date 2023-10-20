@@ -12,18 +12,23 @@ const DetailItem = (prop: { transaction: Transaction }) => {
     const {transaction} = prop;
 
     const onClickItem = () => {
-        if (principal !== event.creator.toText()) 
+        if (principal !== event.creator.toText() || event.state !== 'betting' || transaction.pick === true) 
             return;
         dispatch(onChangeTransactionAction(transaction));
         dispatch(onToggleFinishModalAction());
+    }
+
+    const getPickIcon = () => {
+        if (transaction.pick === true)
+            return <i className="bx bxs-check-circle me-1" style={{position: "absolute"}}></i>
     }
 
     return (
         <div className="col-md-6 col-lg-6">
             <div className="card rounded-3 mb-5" data-aos="fade-up" onClick={() => onClickItem()}>
                 <div className="mb-0 p-2 pb-0">
-                    <span className="d-block overflow-hidden rounded-3"
-                       data-bs-toggle="modal" aria-expanded="false">
+                    <span className="d-block overflow-hidden rounded-3">
+                        {getPickIcon()}
                         <img src={convertImage(transaction.pic)} className="img-fluid"
                              style={{height: '280px', width: "100%"}} alt=""/>
                     </span>
