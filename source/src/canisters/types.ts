@@ -24,15 +24,17 @@ export const Event = Record({
 });
 
 export const Attributes = Record({
-    key: text,
-    value: text,
+    name: text,
+    location: text,
+    category: text,
+    price: text,
 })
 
 export const Metadata = Record({
     name: text,
     description: text,
     image: blob,
-    attributes: Vec(Attributes),
+    attributes: Attributes,
 });
 
 export const NFT = Record({

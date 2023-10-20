@@ -52,6 +52,19 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Bool],
         [],
       ),
+    'finishBetting' : IDL.Func(
+        [
+          IDL.Principal,
+          IDL.Record({
+            'id' : IDL.Principal,
+            'pic' : IDL.Vec(IDL.Nat8),
+            'pick' : IDL.Bool,
+            'challenger' : IDL.Principal,
+          }),
+        ],
+        [IDL.Text],
+        [],
+      ),
     'getAllEvents' : IDL.Func(
         [],
         [
@@ -189,4 +202,4 @@ export const idlFactory = ({ IDL }) => {
     'startBetting' : IDL.Func([IDL.Principal], [IDL.Text], []),
   });
 };
-export const init = ({ IDL }) => { return [IDL.Principal]; };
+export const init = ({ IDL }) => { return [IDL.Principal, IDL.Principal]; };

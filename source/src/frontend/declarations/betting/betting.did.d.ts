@@ -2,6 +2,7 @@ import type { Principal } from '@dfinity/principal';
 import type { ActorMethod } from '@dfinity/agent';
 
 export interface _SERVICE {
+  'bet' : ActorMethod<[Principal, Principal], boolean>,
   'createBetting' : ActorMethod<
     [Principal],
     {
@@ -11,5 +12,14 @@ export interface _SERVICE {
       'totalAmount' : bigint,
     }
   >,
-  'insertBet' : ActorMethod<[Principal, Principal], boolean>,
+  'exitBetting' : ActorMethod<[Principal], boolean>,
+  'insertBet' : ActorMethod<
+    [Principal, Principal],
+    {
+      'id' : Principal,
+      'bets' : Array<{ 'id' : Principal, 'users' : Array<Principal> }>,
+      'finish' : boolean,
+      'totalAmount' : bigint,
+    }
+  >,
 }

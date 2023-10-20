@@ -10,6 +10,7 @@ export const ON_TOGGLE_CONFIRM_MODAL = "modal/confirm/ON_TOGGLE_CONFIRM_MODAL" a
 export const ON_CHANGE_CHALLENGE_ID = "modal/challenge/ON_CHANGE_CHALLENGE_ID" as const;
 export const ON_CHANGE_TRANSACTION = "modal/finish/ON_CHANGE_TRANSACTION" as const;
 export const ON_CHANGE_NOTICE_MESSAGE = "modal/notice/ON_CHANGE_NOTICE_MESSAGE" as const;
+export const ON_CHANGE_FINISH_STATE = "modal/finish/ON_CHANGE_FINISH_STATE" as const;
 
 export const onToggleChallengeModalAction = createAction(ON_TOGGLE_CHALLENGE_MODAL)<undefined>();
 export const onToggleFinishModalAction = createAction(ON_TOGGLE_FINISH_MODAL)<undefined>();
@@ -20,3 +21,4 @@ export const onToggleConfirmModalAction = createAction(ON_TOGGLE_CONFIRM_MODAL)<
 export const onChangeChallengeIdAction = createAction(ON_CHANGE_CHALLENGE_ID)<string>();
 export const onChangeTransactionAction = createAction(ON_CHANGE_TRANSACTION)<Transaction>();
 export const onChangeNoticeMessageAction = createAction(ON_CHANGE_NOTICE_MESSAGE)<string>();
+export const onChangeFinishStateAction = createAction(ON_CHANGE_FINISH_STATE)<string>();

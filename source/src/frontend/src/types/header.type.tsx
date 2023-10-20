@@ -4,6 +4,8 @@ import { AuthClient } from "@dfinity/auth-client";
 
 export type HeaderState = {
     principal?: string;
+    tokenBalance?: string;
+    nftBalance?: string;
 }
 
 export type HeaderAction = ActionType<typeof actions>;

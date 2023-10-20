@@ -7,6 +7,10 @@ azle betting || true
 dfx generate betting
 dfx deploy betting
 
+azle nft || true
+dfx generate nft
+dfx deploy nft
+
 
 II_FETCH_ROOT_KEY=1 dfx deploy internet_identity --no-wallet --argument '(null)'
 
@@ -16,7 +20,7 @@ export TOKEN_NAME="My Token"
 export TOKEN_SYMBOL="XMTK"
 
 dfx identity use default
-export DEFAULT=c5yns-yvrcx-j353o-xggup-vqx62-qi23g-l6rfm-rxo4q-qic2c-hthnr-mae
+export DEFAULT=$(dfx identity get-principal)
 export PRE_MINTED_TOKENS=10_000_000_000_000
 export TRANSFER_FEE=100_000_000
 export ARCHIVE_CONTROLLER=$(dfx identity get-principal)
@@ -47,7 +51,7 @@ dfx generate icrc1_ledger_canister
 
 azle event || true
 dfx generate event
-dfx deploy event --argument "( principal \"$(dfx canister id betting)\")"
+dfx deploy event --argument "( principal \"$(dfx canister id betting)\", principal \"$(dfx canister id nft)\")"
 
 dfx canister create frontend
 pushd src/frontend

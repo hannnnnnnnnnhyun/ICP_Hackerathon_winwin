@@ -21,10 +21,6 @@ const DetailActionComponent = () => {
         }
     }
 
-    const onClickStartChallenge = () => {
-        dispatch(onToggleConfirmModalAction());
-    }
-
     const getActionView = () => {
         if (event.state === 'open') {
             if (event && event.creator.toString() !== principal) {
@@ -40,7 +36,7 @@ const DetailActionComponent = () => {
                     <>
                         <h5 className="mb-3">챌린지 시작하기</h5>
                         <p>챌린지를 시작하고 후보를 정해보세요!</p>
-                        <button className="btn btn-primary" onClick={() => onClickStartChallenge()}>챌린지 시작하기</button>
+                        <button className="btn btn-primary" onClick={() => dispatch(onToggleConfirmModalAction())}>시작하기</button>
                     </>
                 )
             }
@@ -49,19 +45,25 @@ const DetailActionComponent = () => {
             if (event && event.creator.toString() !== principal) {
                 return (
                     <>
-                        <h5 className="mb-3">챌린지에 참여.</h5>
-                        <p>1등에 당선될거 같은 사진에 배팅해보세요!</p>
-                        <button className="btn btn-primary" onClick={() => onClickUpload()}>배팅하기</button>
+                        <h5 className="mb-3">챌린지에 참여하기</h5>
+                        <p>1등에 당선될거 같은 사진을 클릭해 배팅해보세요!</p>
                     </>
                 )
             } else {
                 return (
                     <>
-                        <h5 className="mb-3">결과확인.</h5>
-                        <p>챌린지 결과를 기다려주세요.</p>
+                        <h5 className="mb-3">챌린지 종료하기</h5>
+                        <p>챌린지 후보로 올릴 사진을 클릭해주세요.<br/>그 후,충분히 배팅이 될 때까지 기다려 주세요.<br/>챌린지를 종료하시려면 선정된 사진중 우승시킬 사진을 클릭해주세요</p>
                     </>
                 )
             }
+        } else if (event.state === 'finished') {
+            return (
+                <>
+                    <h5 className="mb-3">챌린지 종료</h5>
+                    <p>챌린지가 종료되었습니다.</p>
+                </>
+            )
         }
     }
 

@@ -9,6 +9,10 @@ import { useDispatch } from "react-redux";
 import { onChangeNoticeMessageAction, onToggleNoticeModalAction, onToggleLoadingModalAction } from "@action/modal.action";
 import { AuthClient } from "@dfinity/auth-client";
 import { useNavigate } from "react-router";
+import { Principal } from '@dfinity/principal';
+import { Actor, HttpAgent, ActorSubclass } from '@dfinity/agent';
+import {TokenActor} from "@actor/token.actor";
+import { canisterId as eventId } from "../../../declarations/event"
 
 const CreateFormComponent = () => {
     const dispatch = useDispatch();
@@ -31,6 +35,20 @@ const CreateFormComponent = () => {
         const authClient = await AuthClient.create();
         await EventActor.setAuthClient(authClient);
         const actor = await EventActor.getEventActor();
+        const tokenActor = await TokenActor.getTokenActor();
+        let allowance = await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(eventId), subaccount: []}})
+        console.log('allowance: ', allowance.allowance);
+        await tokenActor.icrc2_approve({
+            amount: allowance.allowance + BigInt(data.price) - 2n,
+            spender: {owner: Principal.fromText(eventId), subaccount: []},
+            fee: [],
+            memo: [],
+            from_subaccount: [],
+            created_at_time: [],
+            expected_allowance: [],
+            expires_at: []
+        })
+        console.log('allowance: ', await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(eventId), subaccount: []}}));
         const file = logo[0];
         const blobLogo: any = await imageToBlob(file);
         const byteLogo = new Uint8Array(blobLogo);

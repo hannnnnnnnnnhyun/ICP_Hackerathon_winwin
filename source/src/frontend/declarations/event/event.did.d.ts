@@ -51,6 +51,18 @@ export interface _SERVICE {
     ],
     boolean
   >,
+  'finishBetting' : ActorMethod<
+    [
+      Principal,
+      {
+        'id' : Principal,
+        'pic' : Uint8Array | number[],
+        'pick' : boolean,
+        'challenger' : Principal,
+      },
+    ],
+    string
+  >,
   'getAllEvents' : ActorMethod<
     [],
     Array<

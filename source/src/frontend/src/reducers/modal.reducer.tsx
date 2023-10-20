@@ -1,6 +1,6 @@
 import {ModalActions, ModalState} from "@type/modal.type.tsx";
 import {createReducer} from "typesafe-actions";
-import {ON_CHANGE_CHALLENGE_ID, ON_CHANGE_NOTICE_MESSAGE, ON_CHANGE_TRANSACTION, ON_TOGGLE_CHALLENGE_MODAL, ON_TOGGLE_CONFIRM_MODAL, ON_TOGGLE_FINISH_MODAL, ON_TOGGLE_LOADING_MODAL, ON_TOGGLE_NOTICE_MODAL} from "@action/modal.action.tsx";
+import {ON_CHANGE_CHALLENGE_ID, ON_CHANGE_FINISH_STATE, ON_CHANGE_NOTICE_MESSAGE, ON_CHANGE_TRANSACTION, ON_TOGGLE_CHALLENGE_MODAL, ON_TOGGLE_CONFIRM_MODAL, ON_TOGGLE_FINISH_MODAL, ON_TOGGLE_LOADING_MODAL, ON_TOGGLE_NOTICE_MODAL} from "@action/modal.action.tsx";
 
 const initialState: ModalState = {
     isOpenFinishModal: false,
@@ -11,7 +11,8 @@ const initialState: ModalState = {
 
     challengeId: undefined,
     transaction: undefined,
-    noticeMessage: undefined
+    noticeMessage: undefined,
+    eventState: undefined,
 }
 
 const ModalReducer = createReducer<ModalState, ModalActions>(initialState, {
@@ -47,6 +48,10 @@ const ModalReducer = createReducer<ModalState, ModalActions>(initialState, {
         ...state,
         noticeMessage: action.payload
     }),
+    [ON_CHANGE_FINISH_STATE]: (state, action) => ({
+        ...state,
+        eventState: action.payload
+    })
 })
 
 export default ModalReducer;

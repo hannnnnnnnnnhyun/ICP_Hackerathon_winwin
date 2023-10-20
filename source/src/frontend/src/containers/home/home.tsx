@@ -24,6 +24,10 @@ const HomeContainer = () => {
     }
 
     useEffect(() => {
+        dispatch(onEventClearAction());
+    }, []);
+
+    useEffect(() => {
         getEvents();
     }, [page]);
 

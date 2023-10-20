@@ -11,6 +11,7 @@ import ModalChallenge from "@container/modal/modal.challenge";
 import ModalFinish from "@container/modal/modal.finish";
 import LoadingModal from "@container/modal/modal.loading";
 import NoticeModal from "@container/modal/modal.notice";
+import Profile from "@container/profile/profile";
 declare global {
   interface Window {
     ic: any;
@@ -25,6 +26,7 @@ function App() {
         <Route path={"*"} element={<Home/>}/>
         <Route path={"/create"} element={<Create/>}/>
         <Route path={"/detail/:id"} element={<Detail/>}/>
+        <Route path={"/profile"} element={<Profile/>}/>
       </Routes>
       <FooterContainer />
       <ModalChallenge />

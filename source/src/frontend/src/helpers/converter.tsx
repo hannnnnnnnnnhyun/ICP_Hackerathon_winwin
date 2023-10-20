@@ -1,5 +1,6 @@
 export const convertImage = (image: Uint8Array|number[]) => {
     try {
+        console.log('image: ', image)
         const base64String = btoa(String.fromCharCode(...new Uint8Array(image)));
         return `data:image/png;base64,${base64String}`;
     } catch (e) {

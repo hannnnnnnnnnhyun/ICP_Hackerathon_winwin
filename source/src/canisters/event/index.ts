@@ -1,6 +1,7 @@
 import { Canister, query, StableBTreeMap, text, update, Record, Vec, bool, Principal, Opt, nat, nat8, nat64, ic, Variant, int32, None, Null, blob, init } from 'azle';
-import { Challenge, Event, User, Betting } from "../types";
+import { Challenge, Event, User, Betting, Metadata, NFT } from "../types";
 import BettingCanister from '../betting';
+import NFTCanister from '../nft';
 
 let users = StableBTreeMap(Principal, User, 0);
 let events = StableBTreeMap(Principal, Event, 1);
@@ -66,12 +67,18 @@ const tokenCanister = token(
     Principal.fromText('mxzaz-hqaaa-aaaar-qaada-cai')
 );
 let bettingCanister: typeof BettingCanister;
+let nftCanister: typeof NFTCanister;
+
 let bettingId: Principal
+let nftId: Principal
 
 export default Canister({
-    init: init([Principal], (_bettingId) => {
+    init: init([Principal, Principal], (_bettingId, _nftId) => {
         bettingId = _bettingId;
+        nftId = _nftId;
+
         bettingCanister = BettingCanister(_bettingId);
+        nftCanister = NFTCanister(_nftId);
     }),
 
     createEvent: update([Event], bool, async (event) => {
@@ -307,6 +314,80 @@ export default Canister({
 
     getBettingId: query([], text, () => {
         return bettingId.toText();
+    }),
+
+    finishBetting: update([Principal, Challenge], text, async (eventId, transaction) => {
+        const caller = ic.caller();
+        const eventOpt = events.get(eventId);
+        if ('None' in eventOpt) {
+            return 'not found event';
+        }
+        const event = eventOpt.Some;
+        if (event.state !== 'betting') {
+            return 'not betting';
+        }
+        if (event.creator.toString() !== caller.toString()) {
+            return 'not creator';
+        }
+
+        // event state update
+        const new_event: typeof Event = {
+            id: event.id,
+            name: event.name,
+            location: event.location,
+            logo: event.logo,
+            category: event.category,
+            price: event.price,
+            creator: event.creator,
+            state: 'finished',
+            transactions: event.transactions
+        };
+
+        console.log('create new_event success!')
+
+        events.insert(eventId, new_event);
+
+        console.log('insert new_event success!')
+
+        // nft mint to transaction challenger
+        // 1. generate metadata
+        const metadata: typeof Metadata = {
+            name: event.name + ' NFT',
+            description: event.name + ' Play Spot Event NFT',
+            image: transaction.pic,
+            attributes: {
+                name: event.name,
+                location: event.location,
+                category: event.category,
+                price: event.price.toString()
+            }
+        };
+
+        console.log('generate metadata success!')
+
+        // 2. generate nft record
+        const nft: typeof NFT = {
+            id: 0,
+            metadata: metadata,
+            owner: transaction.challenger
+        };
+
+        console.log('generate nft success!')
+
+        // 3. mint
+        const tokenId = await ic.call(nftCanister.mint, {
+            args: [nft, transaction.challenger.toText()]
+        });
+
+        console.log('mint success!')
+
+        const result = await ic.call(bettingCanister.exitBetting, {
+            args: [eventId]
+        });
+
+        console.log('exitBetting success!')
+
+        return 'success';
     }),
 });
 

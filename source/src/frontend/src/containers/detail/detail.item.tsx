@@ -2,7 +2,7 @@ import {Transaction} from "@type/data/transaction.type";
 import React from "react";
 import {convertImage} from "@helper/converter";
 import {useDispatch, useSelector} from "react-redux";
-import { onChangeTransactionAction, onToggleFinishModalAction } from "@action/modal.action";
+import { onChangeFinishStateAction, onChangeTransactionAction, onToggleConfirmModalAction, onToggleFinishModalAction } from "@action/modal.action";
 import { RootState } from "@reducer/root.reducer";
 
 const DetailItem = (prop: { transaction: Transaction }) => {
@@ -12,10 +12,19 @@ const DetailItem = (prop: { transaction: Transaction }) => {
     const {transaction} = prop;
 
     const onClickItem = () => {
-        if (principal !== event.creator.toText() || event.state !== 'betting' || transaction.pick === true) 
-            return;
-        dispatch(onChangeTransactionAction(transaction));
-        dispatch(onToggleFinishModalAction());
+        if (event.state === 'betting' && transaction.pick === true && principal !== event.creator.toText()) {
+            dispatch(onChangeFinishStateAction('betting'));
+            dispatch(onChangeTransactionAction(transaction));
+            dispatch(onToggleFinishModalAction());
+        } else if (event.state === 'betting' && transaction.pick === true && principal === event.creator.toText()) {
+            dispatch(onChangeFinishStateAction('finish'));
+            dispatch(onChangeTransactionAction(transaction));
+            dispatch(onToggleFinishModalAction());
+        } else if (event.state === 'betting' && transaction.pick === false && principal === event.creator.toText()) {
+            dispatch(onChangeFinishStateAction('register'));
+            dispatch(onChangeTransactionAction(transaction));
+            dispatch(onToggleFinishModalAction());
+        }
     }
 
     const getPickIcon = () => {

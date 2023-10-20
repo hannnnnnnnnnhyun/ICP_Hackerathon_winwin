@@ -5,6 +5,10 @@ azle betting || true
 dfx generate betting
 dfx deploy betting
 
+azle nft || true
+dfx generate nft
+dfx deploy nft
+
 # export BETTING_CANISTER_ID=$(dfx canister id betting)
 echo "Betting Canister Id: $BETTING_CANISTER_ID"
 echo "Deploying event canister"

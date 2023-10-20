@@ -7,7 +7,7 @@ import DetailInfo from "@container/detail/detail.info";
 import DetailItem from "@container/detail/detail.item";
 import {useEffect} from "react";
 import { useParams } from 'react-router-dom';
-import {onGetEventAction, onGetTransactionAction} from "@action/detail.action";
+import {onGetEventAction, onGetTransactionAction, onInitAction} from "@action/detail.action";
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import useScript from "@helper/useScript";
 import { onToggleLoadingModalAction } from "@action/modal.action";
@@ -43,6 +43,7 @@ const DetailContainer = () => {
     }
 
     useEffect(() => {
+        dispatch(onInitAction());
         dispatch(onToggleLoadingModalAction(true));
         const id = Principal.fromText(params.id);
         getEvent(id);

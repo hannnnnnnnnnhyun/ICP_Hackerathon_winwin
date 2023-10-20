@@ -30,15 +30,41 @@ export default Canister({
         return nfts.get(id);
     }),
 
-    getOwner: query([Principal], Vec(NFT), (owner) => {
+    getNftByOwner: query([Principal], Vec(NFT), (_owner) => {
+        const ids = owners.get(_owner);
+        if ('None' in ids) {
+            return [];
+        } else {
+            const nftList = [];
+            for (let i = 0; i < ids.Some.length; i++) {
+                const new_nft = nfts.get(ids.Some[i]);
+                if ('None' in new_nft) {
+                    continue;
+                } else {
+                    nftList.push(new_nft.Some);
+                }
+            }
+            return nftList;
+        }
+    }),
+
+    getOwnerCount: query([Principal], int32, (owner) => {
+        const ids = owners.get(owner);
+        if ('None' in ids) {
+            return 0;
+        } else {
+            return ids.Some.length;
+        }
+    }),
+
+    getTokenIdByOwner: query([Principal], Vec(int32), (owner) => {
         const ids = owners.get(owner);
         if ('None' in ids) {
             return [];
         } else {
-            return ids.Some.map((id) => {
-                return nfts.get(id).Some!;
-            });
+            return ids.Some;
         }
     }),
+
 
 });

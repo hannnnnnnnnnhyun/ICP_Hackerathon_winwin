@@ -61,7 +61,7 @@ const HomeItemComponent = (props: { event: Event }) => {
                         </div>
                     </div>
                 </div>
-                <Link to={`/detail/${event.id.toString()}`} className="stretched-link"></Link>
+                <Link to={`/detail/${event.id.toString()}`} className="stretched-link" ></Link>
             </div>
         </div>
     )
