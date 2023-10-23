@@ -4,10 +4,10 @@
 * [Project Description](#project-description)
 * [Project Architecture](#project-architecture)
 * [Setup](source/#setup)
-* [Build](source/README.md#build)
-* [Run](source/README.md#run)
-* [Project Structure](source/README.md#project-structure)
-* [Bootstrap Files Structure](source/README.md#bootstrap-files-structure)
+* [Build](source/#build)
+* [Run](source/#run)
+* [Project Structure](source/#project-structure)
+* [Bootstrap Files Structure](source/#bootstrap-files-structure)
 * [License](#license)
 
 ## Team Members
