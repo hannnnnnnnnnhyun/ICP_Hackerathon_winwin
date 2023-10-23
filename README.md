@@ -3,7 +3,7 @@
 * [Project Name](#project-name)
 * [Project Description](#project-description)
 * [Project Architecture](#project-architecture)
-* [Setup](source/README.md#setup)
+* [Setup](source/#setup)
 * [Build](source/README.md#build)
 * [Run](source/README.md#run)
 * [Project Structure](source/README.md#project-structure)
