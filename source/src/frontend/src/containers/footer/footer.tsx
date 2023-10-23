@@ -8,6 +8,7 @@ const FooterContainer = () => {
                     <div className="col-md-12 col-lg-4 mb-5 h-100 me-auto">
                         <h2 className="display-6 text-white mb-0 position-relative">Work with us</h2>
                         <div className="pt-3">
+                            <a className="link-underline link-light fs-6" href="https://jervis.kr">https://jervis.kr</a>
                             <a className="link-underline link-light fs-6" href="https://github.com/hannnnnnnnnnhyun/ICP_Hackerathon_winwin">https://github.com/hannnnnnnnnnhyun/ICP_Hackerathon_winwin</a>
                         </div>
                     </div>
@@ -38,7 +39,7 @@ const FooterContainer = () => {
                         <div className="d-flex mb-3 mb-md-0 col-sm-6 col-md-4">
                         </div>
                         <div className="col-sm-6 col-md-4 text-sm-end">
-                        <span className="d-block lh-sm small text-white-50">© Copyright. Assan</span>
+                        <span className="d-block lh-sm small text-white-50">© Copyright{new Date().getFullYear()}. Assan</span>
                         </div>
                     </div>
                 </div>
