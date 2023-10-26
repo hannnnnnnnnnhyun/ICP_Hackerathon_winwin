@@ -40,14 +40,12 @@ export interface _SERVICE {
   'exitEvent' : ActorMethod<
     [
       Principal,
-      [] | [
-        {
-          'id' : Principal,
-          'pic' : Uint8Array | number[],
-          'pick' : boolean,
-          'challenger' : Principal,
-        }
-      ],
+      {
+        'id' : Principal,
+        'pic' : Uint8Array | number[],
+        'pick' : boolean,
+        'challenger' : Principal,
+      },
     ],
     boolean
   >,

@@ -72,6 +72,8 @@ let nftCanister: typeof NFTCanister;
 let bettingId: Principal
 let nftId: Principal
 
+const e8s = 100000000n
+
 export default Canister({
     init: init([Principal, Principal], (_bettingId, _nftId) => {
         bettingId = _bettingId;
@@ -86,7 +88,7 @@ export default Canister({
         const userOpt = users.get(caller);
         const id = generateId();
         await ic.call(tokenCanister.icrc2_transfer_from, {
-            args: [{to: {owner: ic.id(), subaccount: None}, fee: None, spender_subaccount: None, from: {owner: caller, subaccount: None}, memo: None, created_at_time: None, amount: event.price}]
+            args: [{to: {owner: ic.id(), subaccount: None}, fee: None, spender_subaccount: None, from: {owner: caller, subaccount: None}, memo: None, created_at_time: None, amount: event.price * e8s}]
         })
         const new_event: typeof Event = {
             id: id,
@@ -194,23 +196,20 @@ export default Canister({
         return true;
     }),
 
-    exitEvent: update([Principal, Opt(Challenge)], bool, (eventId, challenge) => {
+    exitEvent: update([Principal, Challenge], bool, async (eventId, challenge) => {
         const caller = ic.caller();
         const eventOPt = events.get(eventId);
-        if (challenge === None)
-            return true;
-
         if ('None' in eventOPt)
             return false;
         const event = eventOPt.Some;
 
-        if (event.creator !== caller)
+        if (event.creator.toString() !== caller.toString())
             return false;
-        // event.finish = true;
-        const winner = challenge.Some!.challenger;
-        const amount = event.price - 1n;
-        ic.call(tokenCanister.icrc1_transfer, {
-            args: [{ to: { owner: winner, subaccount: None }, fee: None, memo: None, from_subaccount: None, created_at_time: None, amount}]
+        event.finish = true;
+        const winner = challenge.challenger;
+        const amount = event.price;
+        await ic.call(tokenCanister.icrc2_transfer_from, {
+            args: [{to: {owner: winner, subaccount: None}, fee: None, spender_subaccount: None, from: {owner: ic.id(), subaccount: None}, memo: None, created_at_time: None, amount: amount * e8s}]
         })
         return true;
     }),
@@ -382,7 +381,7 @@ export default Canister({
         console.log('mint success!')
 
         const result = await ic.call(bettingCanister.exitBetting, {
-            args: [eventId]
+            args: [eventId, transaction.id]
         });
 
         console.log('exitBetting success!')

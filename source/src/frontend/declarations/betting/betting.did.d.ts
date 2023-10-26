@@ -12,7 +12,7 @@ export interface _SERVICE {
       'totalAmount' : bigint,
     }
   >,
-  'exitBetting' : ActorMethod<[Principal], boolean>,
+  'exitBetting' : ActorMethod<[Principal, Principal], boolean>,
   'insertBet' : ActorMethod<
     [Principal, Principal],
     {

@@ -11,6 +11,7 @@ import { Principal } from "@dfinity/principal";
 import {AddTaskRounded} from "@mui/icons-material";
 import {TokenActor} from "@actor/token.actor";
 import { canisterId as eventId } from "../../../declarations/event"
+import { canisterId as bettingId } from "../../../declarations/betting"
 import { BettingActor } from "@actor/betting.actor";
 
 
@@ -27,11 +28,12 @@ const ModalFinish = () => {
         try {
             const authClient = await AuthClient.create();
             const tokenActor = await TokenActor.getTokenActor();
-            let allowance = await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(eventId), subaccount: []}})
+            let allowance = await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(bettingId), subaccount: []}})
             console.log('allowance: ', allowance.allowance);
+            console.log('bettingId:', bettingId)
             await tokenActor.icrc2_approve({
-                amount: 10n,
-                spender: {owner: Principal.fromText(eventId), subaccount: []},
+                amount: 10n * BigInt(10**8),
+                spender: {owner: Principal.fromText(bettingId), subaccount: []},
                 fee: [],
                 memo: [],
                 from_subaccount: [],
@@ -39,7 +41,7 @@ const ModalFinish = () => {
                 expected_allowance: [],
                 expires_at: []
             })
-            console.log('allowance: ', await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(eventId), subaccount: []}}));
+            console.log('allowance: ', await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(bettingId), subaccount: []}}));
             const bettingActor = await BettingActor.getBettingActor();
             result = await bettingActor.bet(event.id, transaction.id);
             console.log('result: ', result);
@@ -93,6 +95,8 @@ const ModalFinish = () => {
             const actor = await EventActor.getEventActor();
             result = await actor.finishBetting(event.id, transaction);
             console.log('result: ', result);
+            const res = await actor.exitEvent(event.id, transaction);
+            console.log("exitEvent: ", res)
         } catch (e) {
             console.log('e: ', e);
         }

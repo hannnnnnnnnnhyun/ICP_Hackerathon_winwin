@@ -1,7 +1,7 @@
 service: (principal, principal) -> {
     createEvent: (record {id:principal; creator:principal; logo:vec nat8; name:text; state:text; category:text; transactions:vec record {id:principal; pic:vec nat8; pick:bool; challenger:principal}; price:nat; location:text}) -> (bool);
     createTransaction: (principal, record {id:principal; pic:vec nat8; pick:bool; challenger:principal}) -> (bool);
-    exitEvent: (principal, opt record {id:principal; pic:vec nat8; pick:bool; challenger:principal}) -> (bool);
+    exitEvent: (principal, record {id:principal; pic:vec nat8; pick:bool; challenger:principal}) -> (bool);
     finishBetting: (principal, record {id:principal; pic:vec nat8; pick:bool; challenger:principal}) -> (text);
     getAllEvents: () -> (vec record {id:principal; creator:principal; logo:vec nat8; name:text; state:text; category:text; transactions:vec record {id:principal; pic:vec nat8; pick:bool; challenger:principal}; price:nat; location:text}) query;
     getAllTransactions: (principal) -> (vec record {id:principal; pic:vec nat8; pick:bool; challenger:principal}) query;

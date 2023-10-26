@@ -38,8 +38,8 @@ const CreateFormComponent = () => {
         const tokenActor = await TokenActor.getTokenActor();
         let allowance = await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(eventId), subaccount: []}})
         console.log('allowance: ', allowance.allowance);
-        await tokenActor.icrc2_approve({
-            amount: allowance.allowance + BigInt(data.price) - 2n,
+        const res = await tokenActor.icrc2_approve({
+            amount: BigInt(data.price) * BigInt(10**8),
             spender: {owner: Principal.fromText(eventId), subaccount: []},
             fee: [],
             memo: [],
@@ -47,7 +47,7 @@ const CreateFormComponent = () => {
             created_at_time: [],
             expected_allowance: [],
             expires_at: []
-        })
+        })        
         console.log('allowance: ', await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(eventId), subaccount: []}}));
         const file = logo[0];
         const blobLogo: any = await imageToBlob(file);
@@ -63,6 +63,7 @@ const CreateFormComponent = () => {
             price: BigInt(data.price),
             logo: byteLogo,
         });
+        console.log('allowance: ', await tokenActor.icrc2_allowance({account: {owner: authClient.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(eventId), subaccount: []}}));
         if (result === true) {
             dispatch(onChangeNoticeMessageAction('이벤트가 생성되었습니다.'));
             dispatch(onToggleNoticeModalAction());

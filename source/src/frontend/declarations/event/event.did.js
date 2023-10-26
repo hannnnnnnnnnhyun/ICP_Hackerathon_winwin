@@ -40,14 +40,12 @@ export const idlFactory = ({ IDL }) => {
     'exitEvent' : IDL.Func(
         [
           IDL.Principal,
-          IDL.Opt(
-            IDL.Record({
-              'id' : IDL.Principal,
-              'pic' : IDL.Vec(IDL.Nat8),
-              'pick' : IDL.Bool,
-              'challenger' : IDL.Principal,
-            })
-          ),
+          IDL.Record({
+            'id' : IDL.Principal,
+            'pic' : IDL.Vec(IDL.Nat8),
+            'pick' : IDL.Bool,
+            'challenger' : IDL.Principal,
+          }),
         ],
         [IDL.Bool],
         [],

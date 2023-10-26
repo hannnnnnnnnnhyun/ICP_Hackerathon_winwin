@@ -1,6 +1,6 @@
 service: () -> {
     bet: (principal, principal) -> (bool);
     createBetting: (principal) -> (record {id:principal; bets:vec record {id:principal; users:vec principal}; finish:bool; totalAmount:nat});
-    exitBetting: (principal) -> (bool);
+    exitBetting: (principal, principal) -> (bool);
     insertBet: (principal, principal) -> (record {id:principal; bets:vec record {id:principal; users:vec principal}; finish:bool; totalAmount:nat});
 }

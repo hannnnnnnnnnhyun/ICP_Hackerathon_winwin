@@ -18,7 +18,7 @@ export const idlFactory = ({ IDL }) => {
         ],
         [],
       ),
-    'exitBetting' : IDL.Func([IDL.Principal], [IDL.Bool], []),
+    'exitBetting' : IDL.Func([IDL.Principal, IDL.Principal], [IDL.Bool], []),
     'insertBet' : IDL.Func(
         [IDL.Principal, IDL.Principal],
         [

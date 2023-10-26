@@ -60,6 +60,7 @@ const tokenCanister = token(
 
 let bettings = StableBTreeMap(Principal, Betting, 0);
 const amount = 10n;
+const e8s = 100000000n;
 
 export default Canister({
 
@@ -118,13 +119,13 @@ export default Canister({
             id: betting.id, finish: false, totalAmount: betting.totalAmount + amount, bets: betting.bets
         }
         await ic.call(tokenCanister.icrc2_transfer_from, {
-            args: [{to: {owner: ic.id(), subaccount: None}, fee: None, spender_subaccount: None, from: {owner: caller, subaccount: None}, memo: None, created_at_time: None, amount}]
+            args: [{to: {owner: ic.id(), subaccount: None}, fee: None, spender_subaccount: None, from: {owner: caller, subaccount: None}, memo: None, created_at_time: None, amount: amount * e8s}]
         })
         bettings.insert(bettingId, new_betting);
         return true;
     }),
 
-    exitBetting: update([Principal], bool, async (eventId) => {
+    exitBetting: update([Principal, Principal], bool, async (eventId, txId) => {
         let winner;
         const bettingOpt = bettings.get(eventId);
         if ('None' in bettingOpt)
@@ -133,24 +134,18 @@ export default Canister({
         if (betting.finish)
             return false;
         const bets = betting.bets;
-
+            
         for (let i = 0; i < bets.length; i++) {
-            if (i === 0)
+            if(bets[i].id.toString() === txId.toString())
                 winner = bets[i];
-            else {
-                if (winner!.users.length < bets[i].users.length)
-                    winner = bets[i];
-                else if (winner!.users.length == bets[i].users.length) {
-                    const random = Math.random();
-                    random < 0.5 ? winner = winner : winner = bets[i];
-                }
-            }
         }
-        const winners = winner?.users!
-        console.log(winners)
+        const winners = winner.users;
+        console.log('======================================')
         for (let i = 0; i < winners.length; i++) {
-            await ic.call(tokenCanister.icrc1_transfer, {
-                args: [{ to: { owner: winners[i], subaccount: None }, fee: None, memo: None, from_subaccount: None, created_at_time: None, amount: betting.totalAmount / BigInt(winners.length)}]
+            console.log(winners[i].toString())
+            console.log(Number(betting.totalAmount))
+            await ic.call(tokenCanister.icrc2_transfer_from, {
+                args: [{to: {owner: winners[i], subaccount: None}, fee: None, spender_subaccount: None, from: {owner: ic.id(), subaccount: None}, memo: None, created_at_time: None, amount: (betting.totalAmount / BigInt(winners.length) * e8s)}]
             })
         }
         const new_betting: typeof Betting = { id: betting.id, finish: true, totalAmount: 0n, bets: [] };
