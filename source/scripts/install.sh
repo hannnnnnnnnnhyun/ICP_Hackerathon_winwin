@@ -20,7 +20,8 @@ export TOKEN_NAME="My Token"
 export TOKEN_SYMBOL="XMTK"
 
 dfx identity use default
-export DEFAULT=$(dfx identity get-principal)
+# export DEFAULT=$(dfx identity get-principal)
+export DEFAULT=c5yns-yvrcx-j353o-xggup-vqx62-qi23g-l6rfm-rxo4q-qic2c-hthnr-mae
 export PRE_MINTED_TOKENS=10_000_000_000_000
 export TRANSFER_FEE=0
 export ARCHIVE_CONTROLLER=$(dfx identity get-principal)
@@ -48,6 +49,49 @@ record {
  }
 })"
 dfx generate icrc1_ledger_canister
+
+dfx identity use minter
+export MINTER_ACCOUNT_ID=$(dfx ledger account-id)
+
+dfx identity use default
+
+wget https://download.dfinity.systems/ic/d87954601e4b22972899e9957e800406a0a6b929/canisters/ledger-canister.wasm.gz
+
+dfx canister create ledger_canister
+mkdir -p ".dfx/local/canisters/ledger_canister"
+mv ledger-canister.wasm.gz .dfx/local/canisters/ledger_canister/ledger_canister.wasm.gz
+
+
+# II_FETCH_ROOT_KEY=1 dfx deploy internet_identity --no-wallet --argument '(null)'
+
+
+
+
+
+dfx deploy --specified-id ryjl3-tyaaa-aaaaa-aaaba-cai ledger_canister --argument "
+  (variant {
+    Init = record {
+      minting_account = \"$MINTER_ACCOUNT_ID\";
+      initial_values = vec {
+        record {
+          \"df92d431e5edf30156b44e6b7a5e4a133fe49f212d718c9ea5551037a13f0dc4\";
+          record {
+            e8s = 10_000_000_010_000 : nat64;
+          };
+        };
+      };
+      send_whitelist = vec {};
+      transfer_fee = opt record {
+        e8s = 10_000 : nat64;
+      };
+      token_symbol = opt \"LICP\";
+      token_name = opt \"Local ICP\";
+    }
+  })
+"
+
+dfx generate ledger_canister
+echo "generated ledger_canister"
 
 azle event || true
 dfx generate event
