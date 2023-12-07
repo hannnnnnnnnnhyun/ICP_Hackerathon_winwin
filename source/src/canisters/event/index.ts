@@ -73,6 +73,7 @@ let bettingId: Principal
 let nftId: Principal
 
 const e8s = 100000000n
+const admin = Principal.fromText('c5yns-yvrcx-j353o-xggup-vqx62-qi23g-l6rfm-rxo4q-qic2c-hthnr-mae');
 
 export default Canister({
     init: init([Principal, Principal], (_bettingId, _nftId) => {
@@ -208,8 +209,12 @@ export default Canister({
         event.finish = true;
         const winner = challenge.challenger;
         const amount = event.price;
+        const fee = amount * 5n / 100n
         await ic.call(tokenCanister.icrc2_transfer_from, {
-            args: [{to: {owner: winner, subaccount: None}, fee: None, spender_subaccount: None, from: {owner: ic.id(), subaccount: None}, memo: None, created_at_time: None, amount: amount * e8s}]
+            args: [{to: {owner: winner, subaccount: None}, fee: None, spender_subaccount: None, from: {owner: ic.id(), subaccount: None}, memo: None, created_at_time: None, amount: (amount - fee) * e8s}]
+        })
+        await ic.call(tokenCanister.icrc2_transfer_from, {
+            args: [{to: {owner: admin, subaccount: None}, fee: None, spender_subaccount: None, from: {owner: ic.id(), subaccount: None}, memo: None, created_at_time: None, amount: fee * e8s}]
         })
         return true;
     }),

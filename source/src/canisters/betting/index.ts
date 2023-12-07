@@ -61,6 +61,7 @@ const tokenCanister = token(
 let bettings = StableBTreeMap(Principal, Betting, 0);
 const amount = 10n;
 const e8s = 100000000n;
+const admin = Principal.fromText('c5yns-yvrcx-j353o-xggup-vqx62-qi23g-l6rfm-rxo4q-qic2c-hthnr-mae');
 
 export default Canister({
 
@@ -141,13 +142,17 @@ export default Canister({
         }
         const winners = winner.users;
         console.log('======================================')
+        const fee = betting.totalAmount * 5n / 100n;
         for (let i = 0; i < winners.length; i++) {
             console.log(winners[i].toString())
             console.log(Number(betting.totalAmount))
             await ic.call(tokenCanister.icrc2_transfer_from, {
-                args: [{to: {owner: winners[i], subaccount: None}, fee: None, spender_subaccount: None, from: {owner: ic.id(), subaccount: None}, memo: None, created_at_time: None, amount: (betting.totalAmount / BigInt(winners.length) * e8s)}]
+                args: [{to: {owner: winners[i], subaccount: None}, fee: None, spender_subaccount: None, from: {owner: ic.id(), subaccount: None}, memo: None, created_at_time: None, amount: ((betting.totalAmount - fee )/ BigInt(winners.length) * e8s)}]
             })
         }
+        await ic.call(tokenCanister.icrc2_transfer_from, {
+            args: [{to: {owner: admin, subaccount: None}, fee: None, spender_subaccount: None, from: {owner: ic.id(), subaccount: None}, memo: None, created_at_time: None, amount: fee * e8s}]
+        })
         const new_betting: typeof Betting = { id: betting.id, finish: true, totalAmount: 0n, bets: [] };
         bettings.insert(eventId, new_betting);
         return true;
