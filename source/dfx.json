@@ -23,6 +23,16 @@
               "output": "src/frontend/declarations/event"
             }
         },
+        "swap": {
+          "type": "custom",
+          "main": "src/canisters/swap/index.ts",
+          "candid": "src/canisters/swap/index.did",
+          "wasm": ".azle/swap/swap.wasm",
+          "gzip": true,
+          "declarations": {
+            "output": "src/frontend/declarations/swap"
+          }
+      },
         "betting": {
           "type": "custom",
           "main": "src/canisters/betting/index.ts",

@@ -11,6 +11,9 @@ azle nft || true
 dfx generate nft
 dfx deploy nft
 
+azle swap || true
+dfx generate swap
+dfx deploy swap
 
 II_FETCH_ROOT_KEY=1 dfx deploy internet_identity --no-wallet --argument '(null)'
 
@@ -21,7 +24,7 @@ export TOKEN_SYMBOL="XMTK"
 
 dfx identity use default
 # export DEFAULT=$(dfx identity get-principal)
-export DEFAULT=c5yns-yvrcx-j353o-xggup-vqx62-qi23g-l6rfm-rxo4q-qic2c-hthnr-mae
+export DEFAULT=br5f7-7uaaa-aaaaa-qaaca-cai
 export PRE_MINTED_TOKENS=10_000_000_000_000
 export TRANSFER_FEE=0
 export ARCHIVE_CONTROLLER=$(dfx identity get-principal)
@@ -68,7 +71,7 @@ mv ledger-canister.wasm.gz .dfx/local/canisters/ledger_canister/ledger_canister.
 
 
 
-dfx deploy --specified-id ryjl3-tyaaa-aaaaa-aaaba-cai ledger_canister --argument "
+dfx deploy --specified-id b77ix-eeaaa-aaaaa-qaada-cai ledger_canister --argument "
   (variant {
     Init = record {
       minting_account = \"$MINTER_ACCOUNT_ID\";
@@ -76,7 +79,7 @@ dfx deploy --specified-id ryjl3-tyaaa-aaaaa-aaaba-cai ledger_canister --argument
         record {
           \"df92d431e5edf30156b44e6b7a5e4a133fe49f212d718c9ea5551037a13f0dc4\";
           record {
-            e8s = 10_000_000_010_000 : nat64;
+            e8s = 10_000_000_000_000 : nat64;
           };
         };
       };
