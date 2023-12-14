@@ -46,7 +46,7 @@ const HeaderConnectComponent = () => {
             const balance = await tokenActor.icrc1_balance_of({owner: authClient.getIdentity().getPrincipal(), subaccount: []});
             const nftActor = await NFTActor.getNFTActor();
             const nftBalance = await nftActor.getOwnerCount(authClient.getIdentity().getPrincipal());
-            dispatch(onUpdateTokenBalanceAction(balance.toLocaleString('ko-KR')));
+            dispatch(onUpdateTokenBalanceAction((balance/100000000n).toLocaleString('ko-KR')));
             dispatch(onUpdateNFTBalanceAction(nftBalance.toLocaleString('ko-KR')));
         }
     }
