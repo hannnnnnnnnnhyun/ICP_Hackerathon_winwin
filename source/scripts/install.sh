@@ -68,9 +68,6 @@ mv ledger-canister.wasm.gz .dfx/local/canisters/ledger_canister/ledger_canister.
 # II_FETCH_ROOT_KEY=1 dfx deploy internet_identity --no-wallet --argument '(null)'
 
 
-
-
-
 dfx deploy --specified-id b77ix-eeaaa-aaaaa-qaada-cai ledger_canister --argument "
   (variant {
     Init = record {
