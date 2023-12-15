@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { onChangeNoticeMessageAction, onToggleNoticeModalAction, onToggleLoadingModalAction } from "@action/modal.action";
 import { RootState } from '@reducer/root.reducer';
-import { LedgerActor } from '@actor/ledger.actor'
+import { LedgerActor } from '@actor/ledger.actor';
+import { SwapActor } from '@actor/swap.actor';
 import { Principal } from '@dfinity/principal';
+import { swap } from 'declarations/swap';
+import { TokenActor } from '@actor/token.actor';
 
 const ProfileBalanceComponent = () => {
   const dispatch = useDispatch();
@@ -25,20 +28,39 @@ const ProfileBalanceComponent = () => {
 
   const onSubmit = async (data: any) => {
     dispatch(onToggleLoadingModalAction(true));
-    // const ledgerActor = await LedgerActor.getLedgerActor();
-    // if (Selected === 'ICP to Mart') {
-    //   setTest((Number(data.target.amount.value) * 100000000).toFixed(0))
-    //   const result: any = await ledgerActor.icrc1_transfer({
-    //     to: { owner: Principal.fromText('c5yns-yvrcx-j353o-xggup-vqx62-qi23g-l6rfm-rxo4q-qic2c-hthnr-mae'), subaccount: [] },
-    //     fee: [],
-    //     memo: [],
-    //     from_subaccount: [],
-    //     created_at_time: [],
-    //     amount: BigInt((Number(data.target.amount.value) * 100000000).toFixed(0))
-    //   })
-    // }
-    dispatch(onChangeNoticeMessageAction('testtest'));
-    dispatch(onToggleNoticeModalAction());
+    data.preventDefault();
+    const ledgerActor = await LedgerActor.getLedgerActor();
+    const swapActor = await SwapActor.getSwapActor();
+    const tokenActor = await TokenActor.getTokenActor();
+    if (Selected === 'ICP to Mart') {
+      setTest(SwapActor.getIdentity().getPrincipal().toString())
+      await ledgerActor.icrc1_transfer({
+        to: { owner: Principal.fromText(SwapActor.canister()), subaccount: [] },
+        fee: [],
+        memo: [],
+        from_subaccount: [],
+        created_at_time: [],
+        amount: BigInt((Number(data.target.amount.value) * 100000000).toFixed(0))
+      })
+      await swapActor.LedgerToToken();
+    }
+    else {
+      await tokenActor.icrc2_approve({
+        amount: BigInt((Number(data.target.amount.value) * 100000000).toFixed(0)),
+        spender: { owner: Principal.fromText(SwapActor.canister()), subaccount: [] },
+        fee: [],
+        memo: [],
+        from_subaccount: [],
+        created_at_time: [],
+        expected_allowance: [],
+        expires_at: []
+      })
+      console.log('allowance: ', await tokenActor.icrc2_allowance({account: {owner: SwapActor.getIdentity().getPrincipal(), subaccount: []}, spender: {owner: Principal.fromText(SwapActor.canister()), subaccount: []}}));
+
+      await swapActor.TokenToLedger(BigInt((Number(data.target.amount.value) * 100000000).toFixed(0)));
+    }
+    dispatch(onToggleLoadingModalAction(false));
+    location.reload();
   }
 
   const [test, setTest] = useState('test');
@@ -72,7 +94,7 @@ const ProfileBalanceComponent = () => {
             </div>
 
             <button type="submit" className="btn btn-primary w-20">Swap</button>
-            <div>{test}</div>
+            <div>{Selected}</div>
           </div>
         </form>
       </div>
